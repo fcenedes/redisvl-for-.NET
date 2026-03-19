@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/fcenedese/intent/workspaces/small-create/repo/tests/RedisVL.Tests/RedisVL.Tests.csproj": {}
+    "/Users/fcenedese/Documents/dev/redisvl-charp/tests/RedisVL.Tests/RedisVL.Tests.csproj": {}
   },
   "projects": {
-    "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj": {
+    "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj",
+        "projectUniqueName": "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj",
         "projectName": "RedisVL",
-        "projectPath": "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj",
+        "projectPath": "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj",
         "packagesPath": "/Users/fcenedese/.nuget/packages/",
-        "outputPath": "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/obj/",
+        "outputPath": "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/fcenedese/.nuget/NuGet/NuGet.Config"
@@ -348,14 +348,14 @@
         }
       }
     },
-    "/Users/fcenedese/intent/workspaces/small-create/repo/tests/RedisVL.Tests/RedisVL.Tests.csproj": {
+    "/Users/fcenedese/Documents/dev/redisvl-charp/tests/RedisVL.Tests/RedisVL.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/fcenedese/intent/workspaces/small-create/repo/tests/RedisVL.Tests/RedisVL.Tests.csproj",
+        "projectUniqueName": "/Users/fcenedese/Documents/dev/redisvl-charp/tests/RedisVL.Tests/RedisVL.Tests.csproj",
         "projectName": "RedisVL.Tests",
-        "projectPath": "/Users/fcenedese/intent/workspaces/small-create/repo/tests/RedisVL.Tests/RedisVL.Tests.csproj",
+        "projectPath": "/Users/fcenedese/Documents/dev/redisvl-charp/tests/RedisVL.Tests/RedisVL.Tests.csproj",
         "packagesPath": "/Users/fcenedese/.nuget/packages/",
-        "outputPath": "/Users/fcenedese/intent/workspaces/small-create/repo/tests/RedisVL.Tests/obj/",
+        "outputPath": "/Users/fcenedese/Documents/dev/redisvl-charp/tests/RedisVL.Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/fcenedese/.nuget/NuGet/NuGet.Config"
@@ -371,8 +371,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj": {
-                "projectPath": "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj"
+              "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj": {
+                "projectPath": "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj"
               }
             }
           }

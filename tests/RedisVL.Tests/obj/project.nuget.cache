@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "NnOuas4YWdM=",
+  "dgSpecHash": "vh2pB+WVJSg=",
   "success": true,
-  "projectFilePath": "/Users/fcenedese/intent/workspaces/small-create/repo/tests/RedisVL.Tests/RedisVL.Tests.csproj",
+  "projectFilePath": "/Users/fcenedese/Documents/dev/redisvl-charp/tests/RedisVL.Tests/RedisVL.Tests.csproj",
   "expectedPackageFiles": [
     "/Users/fcenedese/.nuget/packages/coverlet.collector/6.0.4/coverlet.collector.6.0.4.nupkg.sha512",
     "/Users/fcenedese/.nuget/packages/microsoft.codecoverage/17.14.1/microsoft.codecoverage.17.14.1.nupkg.sha512",

@@ -1616,11 +1616,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/fcenedese/intent/workspaces/small-create/repo/samples/RedisVL.Tutorial/RedisVL.Tutorial.csproj",
+      "projectUniqueName": "/Users/fcenedese/Documents/dev/redisvl-charp/samples/RedisVL.Tutorial/RedisVL.Tutorial.csproj",
       "projectName": "RedisVL.Tutorial",
-      "projectPath": "/Users/fcenedese/intent/workspaces/small-create/repo/samples/RedisVL.Tutorial/RedisVL.Tutorial.csproj",
+      "projectPath": "/Users/fcenedese/Documents/dev/redisvl-charp/samples/RedisVL.Tutorial/RedisVL.Tutorial.csproj",
       "packagesPath": "/Users/fcenedese/.nuget/packages/",
-      "outputPath": "/Users/fcenedese/intent/workspaces/small-create/repo/samples/RedisVL.Tutorial/obj/",
+      "outputPath": "/Users/fcenedese/Documents/dev/redisvl-charp/samples/RedisVL.Tutorial/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/fcenedese/.nuget/NuGet/NuGet.Config"
@@ -1636,8 +1636,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj": {
-              "projectPath": "/Users/fcenedese/intent/workspaces/small-create/repo/src/RedisVL/RedisVL.csproj"
+            "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj": {
+              "projectPath": "/Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/RedisVL.csproj"
             }
           }
         }
