@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VImAOmxI0s0=",
+  "dgSpecHash": "4BiOuLVfObY=",
   "success": true,
-  "projectFilePath": "/Users/fcenedese/Documents/dev/redisvl-charp/samples/RedisVL.Tutorial/RedisVL.Tutorial.csproj",
+  "projectFilePath": "/Users/fcenedese/intent/workspaces/full-review/repo/samples/RedisVL.Tutorial/RedisVL.Tutorial.csproj",
   "expectedPackageFiles": [
     "/Users/fcenedese/.nuget/packages/avalonia/11.2.3/avalonia.11.2.3.nupkg.sha512",
     "/Users/fcenedese/.nuget/packages/avalonia.angle.windows.natives/2.1.22045.20230930/avalonia.angle.windows.natives.2.1.22045.20230930.nupkg.sha512",

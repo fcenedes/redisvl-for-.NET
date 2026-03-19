@@ -34,3 +34,15 @@
 /Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/obj/Debug/net10.0/refint/RedisVL.dll
 /Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/obj/Debug/net10.0/RedisVL.pdb
 /Users/fcenedese/Documents/dev/redisvl-charp/src/RedisVL/obj/Debug/net10.0/ref/RedisVL.dll
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/bin/Debug/net10.0/RedisVL.deps.json
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/bin/Debug/net10.0/RedisVL.dll
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/bin/Debug/net10.0/RedisVL.pdb
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.csproj.AssemblyReference.cache
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.GeneratedMSBuildEditorConfig.editorconfig
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.AssemblyInfoInputs.cache
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.AssemblyInfo.cs
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.csproj.CoreCompileInputs.cache
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.dll
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/refint/RedisVL.dll
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/RedisVL.pdb
+/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/obj/Debug/net10.0/ref/RedisVL.dll

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RedisVL.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69b2753a54812104c620260747e76ce7fce38f2f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4f40644b194a6d866d0193c04096ba421aa342b")]
 [assembly: System.Reflection.AssemblyProductAttribute("RedisVL.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RedisVL.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
