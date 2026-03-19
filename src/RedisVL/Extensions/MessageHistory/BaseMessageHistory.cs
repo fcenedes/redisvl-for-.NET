@@ -74,18 +74,37 @@ public class BaseMessageHistory : IDisposable
     /// Gets recent messages from the history.
     /// </summary>
     /// <param name="topK">Number of recent messages to return.</param>
-    /// <param name="role">Optional role filter (single role or array).</param>
+    /// <param name="role">Optional single role filter.</param>
     /// <returns>Messages in chronological order.</returns>
-    public virtual async Task<IList<Message>> GetRecentAsync(int topK = 5, string? role = null)
+    public virtual Task<IList<Message>> GetRecentAsync(int topK = 5, string? role = null)
+    {
+        string[]? roles = role != null ? new[] { role } : null;
+        return GetRecentAsync(topK, roles);
+    }
+
+    /// <summary>
+    /// Gets recent messages from the history, filtered by one or more roles.
+    /// </summary>
+    /// <param name="topK">Number of recent messages to return.</param>
+    /// <param name="roles">Optional role filter (multiple roles produce a Tag IN filter).</param>
+    /// <returns>Messages in chronological order.</returns>
+    public virtual async Task<IList<Message>> GetRecentAsync(int topK, string[]? roles)
     {
         await EnsureInitializedAsync();
-        
+
         FilterExpression? filter = null;
-        if (!string.IsNullOrEmpty(role))
+        if (roles != null && roles.Length > 0)
         {
-            filter = Tag.Field("role") == role;
+            if (roles.Length == 1)
+            {
+                filter = Tag.Field("role") == roles[0];
+            }
+            else
+            {
+                filter = Tag.Field("role").In(roles);
+            }
         }
-        
+
         var query = new FilterQuery
         {
             FilterExpression = filter,
@@ -94,9 +113,9 @@ public class BaseMessageHistory : IDisposable
             SortAscending = false,
             ReturnFields = new[] { "role", "content", "metadata", "timestamp" }
         };
-        
+
         var results = await Index.QueryAsync(query);
-        
+
         var messages = results.Documents.Select(doc => new Message
         {
             Role = doc.GetField<string>("role") ?? string.Empty,
@@ -105,7 +124,7 @@ public class BaseMessageHistory : IDisposable
                 ? JsonSerializer.Deserialize<Dictionary<string, string>>(doc.GetField<string>("metadata")!)
                 : null
         }).Reverse().ToList();
-        
+
         return messages;
     }
     

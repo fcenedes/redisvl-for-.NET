@@ -163,5 +163,174 @@ public class ExtendedVectorizerTests
             Environment.SetEnvironmentVariable("OPENAI_API_KEY", original);
         }
     }
+
+    // ── VertexAI Vectorizer Tests ──
+
+    [Fact]
+    public void VertexAITextVectorizer_DefaultModel_IsCorrect()
+    {
+        var v = new VertexAITextVectorizer(apiKey: "test-key");
+        Assert.Equal("textembedding-gecko", v.Model);
+    }
+
+    [Fact]
+    public void VertexAITextVectorizer_WithCustomModel_UsesSpecifiedModel()
+    {
+        var v = new VertexAITextVectorizer(model: "text-embedding-004", apiKey: "test-key");
+        Assert.Equal("text-embedding-004", v.Model);
+    }
+
+    [Fact]
+    public void VertexAITextVectorizer_WithDims_SetsCorrectDims()
+    {
+        var v = new VertexAITextVectorizer(apiKey: "test-key", dims: 768);
+        Assert.Equal(768, v.Dims);
+    }
+
+    [Fact]
+    public void VertexAITextVectorizer_NullApiKey_NoEnvVar_Throws()
+    {
+        var original = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
+        try
+        {
+            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", null);
+            Assert.Throws<VectorizationException>(() => new VertexAITextVectorizer());
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", original);
+        }
+    }
+
+    [Fact]
+    public void VertexAITextVectorizer_EnvVarFallback_Works()
+    {
+        var original = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
+        try
+        {
+            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", "env-gcp-key");
+            var v = new VertexAITextVectorizer();
+            Assert.Equal("textembedding-gecko", v.Model);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("GOOGLE_API_KEY", original);
+        }
+    }
+
+    // ── Mistral Vectorizer Tests ──
+
+    [Fact]
+    public void MistralTextVectorizer_DefaultModel_IsCorrect()
+    {
+        var v = new MistralTextVectorizer(apiKey: "test-key");
+        Assert.Equal("mistral-embed", v.Model);
+    }
+
+    [Fact]
+    public void MistralTextVectorizer_WithCustomModel_UsesSpecifiedModel()
+    {
+        var v = new MistralTextVectorizer(model: "mistral-embed-large", apiKey: "test-key");
+        Assert.Equal("mistral-embed-large", v.Model);
+    }
+
+    [Fact]
+    public void MistralTextVectorizer_WithDims_SetsCorrectDims()
+    {
+        var v = new MistralTextVectorizer(apiKey: "test-key", dims: 1024);
+        Assert.Equal(1024, v.Dims);
+    }
+
+    [Fact]
+    public void MistralTextVectorizer_NullApiKey_NoEnvVar_Throws()
+    {
+        var original = Environment.GetEnvironmentVariable("MISTRAL_API_KEY");
+        try
+        {
+            Environment.SetEnvironmentVariable("MISTRAL_API_KEY", null);
+            Assert.Throws<VectorizationException>(() => new MistralTextVectorizer());
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MISTRAL_API_KEY", original);
+        }
+    }
+
+    [Fact]
+    public void MistralTextVectorizer_EnvVarFallback_Works()
+    {
+        var original = Environment.GetEnvironmentVariable("MISTRAL_API_KEY");
+        try
+        {
+            Environment.SetEnvironmentVariable("MISTRAL_API_KEY", "env-mistral-key");
+            var v = new MistralTextVectorizer();
+            Assert.Equal("mistral-embed", v.Model);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("MISTRAL_API_KEY", original);
+        }
+    }
+
+    // ── VoyageAI Vectorizer Tests ──
+
+    [Fact]
+    public void VoyageAITextVectorizer_DefaultModel_IsCorrect()
+    {
+        var v = new VoyageAITextVectorizer(apiKey: "test-key");
+        Assert.Equal("voyage-3-large", v.Model);
+    }
+
+    [Fact]
+    public void VoyageAITextVectorizer_WithCustomModel_UsesSpecifiedModel()
+    {
+        var v = new VoyageAITextVectorizer(model: "voyage-3-lite", apiKey: "test-key");
+        Assert.Equal("voyage-3-lite", v.Model);
+    }
+
+    [Fact]
+    public void VoyageAITextVectorizer_WithDims_SetsCorrectDims()
+    {
+        var v = new VoyageAITextVectorizer(apiKey: "test-key", dims: 512);
+        Assert.Equal(512, v.Dims);
+    }
+
+    [Fact]
+    public void VoyageAITextVectorizer_NullApiKey_NoEnvVar_Throws()
+    {
+        var original = Environment.GetEnvironmentVariable("VOYAGE_API_KEY");
+        try
+        {
+            Environment.SetEnvironmentVariable("VOYAGE_API_KEY", null);
+            Assert.Throws<VectorizationException>(() => new VoyageAITextVectorizer());
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("VOYAGE_API_KEY", original);
+        }
+    }
+
+    [Fact]
+    public void VoyageAITextVectorizer_EnvVarFallback_Works()
+    {
+        var original = Environment.GetEnvironmentVariable("VOYAGE_API_KEY");
+        try
+        {
+            Environment.SetEnvironmentVariable("VOYAGE_API_KEY", "env-voyage-key");
+            var v = new VoyageAITextVectorizer();
+            Assert.Equal("voyage-3-large", v.Model);
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("VOYAGE_API_KEY", original);
+        }
+    }
+
+    [Fact]
+    public void VoyageAITextVectorizer_DefaultDims_IsZero()
+    {
+        var v = new VoyageAITextVectorizer(apiKey: "test-key");
+        Assert.Equal(0, v.Dims);
+    }
 }
 
