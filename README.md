@@ -150,7 +150,7 @@ dotnet test --collect:"XPlat Code Coverage"
 ### Coverage Gap Summary
 
 | Area | Unit Testable | Integration Test Required |
-|------|:---:|:---:|
+| --- | --- | --- |
 | Schema parsing & validation | ✅ | — |
 | Query string generation | ✅ | — |
 | Filter expression building | ✅ | — |
