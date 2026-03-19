@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="RedisVL.Tutorial.Views.EmbeddingsCacheDemo">
+    <ScrollViewer>
+        <StackPanel Margin="16" Spacing="12">
+            <TextBlock Text="Embeddings Cache Demo" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock TextWrapping="Wrap"
+                       Text="Cache raw embeddings by text and model name. Avoids redundant API calls by storing embedding vectors in Redis." />
+
+            <!-- Store Section -->
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Store Embedding" FontWeight="SemiBold" />
+                    <TextBox Name="EmbText" Watermark="Text to embed (e.g. Hello world)" />
+                    <TextBox Name="EmbModel" Watermark="Model name (e.g. text-embedding-3-small)" Text="demo-model" />
+                    <Button Name="SetButton" Content="Set (generate &amp; cache)" Click="OnSetClick" />
+                </StackPanel>
+            </Border>
+
+            <!-- Retrieve Section -->
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Retrieve Embedding" FontWeight="SemiBold" />
+                    <TextBox Name="GetText" Watermark="Text to look up" />
+                    <Button Name="GetButton" Content="Get" Click="OnGetClick" />
+                    <Button Name="ExistsButton" Content="Check Exists" Click="OnExistsClick" />
+                    <Button Name="DropButton" Content="Drop" Click="OnDropClick" />
+                </StackPanel>
+            </Border>
+
+            <!-- Batch Section -->
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Batch Operations" FontWeight="SemiBold" />
+                    <TextBox Name="BatchTexts" Watermark="Comma-separated texts (e.g. hello,world,foo)" />
+                    <Button Name="MSetButton" Content="MSet (batch store)" Click="OnMSetClick" />
+                    <Button Name="MGetButton" Content="MGet (batch retrieve)" Click="OnMGetClick" />
+                </StackPanel>
+            </Border>
+
+            <!-- Output -->
+            <TextBlock Text="Output:" FontWeight="SemiBold" />
+            <TextBox Name="Output" IsReadOnly="True" AcceptsReturn="True" Height="120"
+                     TextWrapping="Wrap" />
+
+            <Button Name="ClearButton" Content="Clear All" Click="OnClearClick" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
+

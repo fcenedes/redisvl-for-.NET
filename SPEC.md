@@ -167,17 +167,96 @@ var match = await router.RouteAsync("Hi, good morning");
 // Returns: RouteMatch { Name = "greeting", Distance = 0.27 }
 ```
 
+## Feature Parity Table
+
+| Feature | Python RedisVL | C# RedisVL | Status |
+|---------|---------------|------------|--------|
+| **Schema** | | | |
+| YAML schema loading | ✅ | ✅ | Complete |
+| JSON schema loading | ✅ | ✅ | Complete |
+| Dictionary schema loading | ✅ | ✅ | Complete |
+| **Index** | | | |
+| SearchIndex (Hash) | ✅ | ✅ | Complete |
+| SearchIndex (JSON) | ✅ | ✅ | Complete |
+| Create/Drop/Exists | ✅ | ✅ | Complete |
+| Load/Fetch/Delete | ✅ | ✅ | Complete |
+| **Query** | | | |
+| VectorQuery | ✅ | ✅ | Complete |
+| RangeQuery | ✅ | ✅ | Complete |
+| FilterQuery | ✅ | ✅ | Complete |
+| TextQuery | ✅ | ✅ | Complete |
+| HybridQuery | ✅ | ✅ | Complete |
+| CountQuery | ✅ | ✅ | Complete |
+| **Filters** | | | |
+| TagFilter | ✅ | ✅ | Complete |
+| NumericFilter | ✅ | ✅ | Complete |
+| TextField | ✅ | ✅ | Complete |
+| GeoFilter | ✅ | ✅ | Complete |
+| **Vectorizers** | | | |
+| OpenAI | ✅ | ✅ | Complete |
+| Azure OpenAI | ✅ | ✅ | Complete |
+| Cohere | ✅ | ✅ | Complete |
+| HuggingFace | ✅ | ✅ | Complete |
+| CustomTextVectorizer | ✅ | ✅ | Complete |
+| **Extensions** | | | |
+| SemanticCache | ✅ | ✅ | Complete |
+| EmbeddingsCache | ✅ | ✅ | Complete |
+| BaseMessageHistory | ✅ | ✅ | Complete |
+| SemanticMessageHistory | ✅ | ✅ | Complete |
+| SemanticRouter | ✅ | ✅ | Complete |
+| **Rerankers** | | | |
+| CohereReranker | ✅ | ✅ | Complete |
+| **Tutorial App** | N/A | ✅ | Complete |
+
+## Tutorial App Section
+
+### Avalonia UI Tutorial App
+
+An interactive desktop application built with Avalonia UI to demonstrate RedisVL .NET capabilities.
+
+**Location:** `samples/RedisVL.Tutorial/`
+
+**Target Framework:** .NET 8.0 with Avalonia UI
+
+**Structure:**
+```
+samples/
+└── RedisVL.Tutorial/
+    ├── RedisVL.Tutorial.csproj  (Avalonia app, net8.0)
+    ├── App.axaml
+    ├── MainWindow.axaml
+    ├── ViewModels/
+    │   └── MainWindowViewModel.cs
+    └── Views/
+        ├── SemanticCacheDemo.axaml
+        ├── EmbeddingsCacheDemo.axaml
+        └── MessageHistoryDemo.axaml
+```
+
+**Features Demonstrated:**
+
+1. **SemanticCache Demo** - Store and check LLM responses with semantic similarity matching. Shows how prompts with similar meaning return cached responses.
+
+2. **EmbeddingsCache Demo** - Cache and retrieve raw embeddings by text and model name. Demonstrates batch operations (MSet/MGet) and TTL management.
+
+3. **MessageHistory Demo** - Conversation history with semantic search. Shows adding messages and retrieving relevant context by semantic similarity.
+
+4. **CustomTextVectorizer** - User-provided embedding function integration. Demonstrates plugging in custom embedding logic without external API dependencies.
+
 ## Implementation Status
 
-- [ ] Project Setup & Structure
-- [ ] Schema Module
-- [ ] Index Module
-- [ ] Query Module
-- [ ] Filter Module
-- [ ] Vectorizers Module
-- [ ] Extensions - Semantic Cache
-- [ ] Extensions - Message History
-- [ ] Extensions - Semantic Router
+- [x] Project Setup & Structure
+- [x] Schema Module
+- [x] Index Module
+- [x] Query Module
+- [x] Filter Module
+- [x] Vectorizers Module
+- [x] Extensions - Semantic Cache
+- [x] Extensions - Message History
+- [x] Extensions - Semantic Router
+- [x] Extensions - EmbeddingsCache
+- [x] Utils - CustomTextVectorizer
+- [x] Tutorial App (Avalonia UI)
 - [ ] Unit Tests
 
 ## References
