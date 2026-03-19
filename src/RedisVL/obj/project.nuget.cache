@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "iUqkeQu8N+Y=",
+  "success": true,
+  "projectFilePath": "/Users/fcenedese/intent/workspaces/net-create/repo/src/RedisVL/RedisVL.csproj",
+  "expectedPackageFiles": [
+    "/Users/fcenedese/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/fcenedese/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/Users/fcenedese/.nuget/packages/nredisstack/1.3.0/nredisstack.1.3.0.nupkg.sha512",
+    "/Users/fcenedese/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
+    "/Users/fcenedese/.nuget/packages/stackexchange.redis/2.9.17/stackexchange.redis.2.9.17.nupkg.sha512",
+    "/Users/fcenedese/.nuget/packages/yamldotnet/16.3.0/yamldotnet.16.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
