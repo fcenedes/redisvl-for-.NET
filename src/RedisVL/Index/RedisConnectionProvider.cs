@@ -50,7 +50,7 @@ public class RedisConnectionProvider : IDisposable
     /// Parses a Redis URL into a StackExchange.Redis connection string.
     /// Supports formats: redis://host:port, redis://password@host:port, host:port
     /// </summary>
-    private static string ParseRedisUrl(string url)
+    internal static string ParseRedisUrl(string url)
     {
         if (string.IsNullOrEmpty(url))
             throw new ArgumentException("Redis URL cannot be null or empty.", nameof(url));
