@@ -5,7 +5,7 @@
   },
   "projects": {
     "/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/RedisVL.csproj": {
-      "version": "1.0.0",
+      "version": "0.1.0",
       "restore": {
         "projectUniqueName": "/Users/fcenedese/intent/workspaces/full-review/repo/src/RedisVL/RedisVL.csproj",
         "projectName": "RedisVL",

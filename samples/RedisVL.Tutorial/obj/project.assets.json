@@ -592,7 +592,7 @@
           }
         }
       },
-      "RedisVL/1.0.0": {
+      "RedisVL/0.1.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
@@ -1594,7 +1594,7 @@
         "yamldotnet.nuspec"
       ]
     },
-    "RedisVL/1.0.0": {
+    "RedisVL/0.1.0": {
       "type": "project",
       "path": "../../src/RedisVL/RedisVL.csproj",
       "msbuildProject": "../../src/RedisVL/RedisVL.csproj"
@@ -1607,7 +1607,7 @@
       "Avalonia.Fonts.Inter >= 11.2.3",
       "Avalonia.Themes.Fluent >= 11.2.3",
       "CommunityToolkit.Mvvm >= 8.4.0",
-      "RedisVL >= 1.0.0"
+      "RedisVL >= 0.1.0"
     ]
   },
   "packageFolders": {
