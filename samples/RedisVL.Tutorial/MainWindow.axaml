@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:RedisVL.Tutorial.ViewModels"
         xmlns:v="using:RedisVL.Tutorial.Views"
+
         x:Class="RedisVL.Tutorial.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="RedisVL for .NET"
@@ -47,7 +48,22 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <ContentControl Content="{Binding}" />
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.DataTemplates>
+                            <DataTemplate DataType="vm:SemanticCacheSectionViewModel">
+                                <v:SemanticCacheSectionView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:EmbeddingsCacheSectionViewModel">
+                                <v:EmbeddingsCacheSectionView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:MessageHistorySectionViewModel">
+                                <v:MessageHistorySectionView />
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:SemanticRouterSectionViewModel">
+                                <v:SemanticRouterSectionView />
+                            </DataTemplate>
+                        </ContentControl.DataTemplates>
+                    </ContentControl>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
