@@ -15,11 +15,11 @@ Welcome to the documentation for **RedisVL for .NET**, a client library for Redi
 - **[Extensions](user-guide/extensions.md)** — Semantic Cache, Embeddings Cache, Message History, and Semantic Router
 - **[Connections](user-guide/connections.md)** — Redis URLs, SSL, Sentinel, and connection management
 
+### Tutorial
+- **[Interactive Tutorial App](tutorial.md)** — Avalonia desktop app demonstrating Semantic Cache, Embeddings Cache, and Message History with step-by-step walkthroughs
+
 ### Reference
 - **[API Reference](api/reference.md)** — Complete API documentation for all public classes and methods
-
-### Examples
-- **[Tutorial App](../samples/RedisVL.Tutorial/)** — Interactive Avalonia desktop app demonstrating all features
 
 ## Overview
 
