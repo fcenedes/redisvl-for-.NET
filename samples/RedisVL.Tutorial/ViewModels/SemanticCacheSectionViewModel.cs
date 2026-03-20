@@ -126,11 +126,17 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
+            var stopwatch = Stopwatch.StartNew();
             var results = await cache!.CheckAsync(CheckPrompt);
+            stopwatch.Stop();
+
             if (results.Count > 0)
             {
+                var savings = metricsService.EstimateSavings();
+                metricsService.RecordCacheHit(stopwatch.ElapsedMilliseconds, savings);
+
                 var sb = new StringBuilder();
-                sb.AppendLine($"Cache HIT — {results.Count} result(s):");
+                sb.AppendLine($"⚡ Cache HIT — {results.Count} result(s), Time: {stopwatch.ElapsedMilliseconds}ms, Saved: ${savings:F4}");
                 foreach (var entry in results)
                 {
                     sb.AppendLine($"  Prompt:   {entry.Prompt}");
@@ -142,7 +148,8 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             }
             else
             {
-                Output = "Cache MISS — no similar prompt found.";
+                metricsService.RecordCacheMiss(stopwatch.ElapsedMilliseconds);
+                Output = $"Cache MISS — no similar prompt found. Time: {stopwatch.ElapsedMilliseconds}ms";
             }
         }
         finally

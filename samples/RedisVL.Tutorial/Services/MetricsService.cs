@@ -57,6 +57,19 @@ public partial class MetricsService : ReactiveObject
     }
 
     /// <summary>
+    /// Records a cache miss without an API call (e.g. from a manual Check operation).
+    /// </summary>
+    public void RecordCacheMiss(long responseTimeMs)
+    {
+        TotalQuestions++;
+        CacheMisses++;
+        LastResponseTimeMs = responseTimeMs;
+        sumApiTimeMs += responseTimeMs;
+        CacheHitRate = TotalQuestions > 0 ? (double)CacheHits / TotalQuestions * 100.0 : 0.0;
+        AverageApiTimeMs = CacheMisses > 0 ? (double)sumApiTimeMs / CacheMisses : 0.0;
+    }
+
+    /// <summary>
     /// Estimates the cost savings for a cache hit based on average token usage from previous API calls.
     /// </summary>
     public decimal EstimateSavings()

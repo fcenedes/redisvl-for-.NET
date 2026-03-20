@@ -20,8 +20,8 @@
             </z:HeaderedContainer>
 
             <!-- Store Section -->
-            <z:HeaderedContainer Header="Store a Response">
-                <StackPanel Spacing="8">
+            <Expander Header="Manual Store Entry" IsExpanded="False">
+                <StackPanel Spacing="8" Margin="0,8,0,0">
                     <TextBox Watermark="Prompt (e.g. What is Redis?)"
                              Text="{Binding StorePrompt}" />
                     <TextBox Watermark="Response"
@@ -29,7 +29,7 @@
                              Text="{Binding StoreResponse}" />
                     <Button Content="Store" Command="{Binding Store}" Classes="Primary" />
                 </StackPanel>
-            </z:HeaderedContainer>
+            </Expander>
 
             <!-- Check Section -->
             <z:HeaderedContainer Header="Check Cache">
