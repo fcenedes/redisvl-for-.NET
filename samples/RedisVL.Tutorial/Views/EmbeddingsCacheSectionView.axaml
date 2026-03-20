@@ -16,7 +16,7 @@
                 <StackPanel Spacing="8">
                     <TextBox Text="{Binding Text}" Watermark="Text to embed (e.g. Hello world)" />
                     <TextBox Text="{Binding ModelName}" Watermark="Model name (e.g. demo-model)" />
-                    <Button Content="Set (generate &amp; cache)" Command="{Binding Set}" />
+                    <Button Content="Set (generate &amp; cache)" Command="{Binding Set}" Classes="Primary" />
                 </StackPanel>
             </z:HeaderedContainer>
 
@@ -26,9 +26,9 @@
                     <TextBlock Text="Uses the Text and Model Name from above."
                                FontSize="12" Opacity="0.7" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="Get" Command="{Binding Get}" />
-                        <Button Content="Check Exists" Command="{Binding Exists}" />
-                        <Button Content="Drop" Command="{Binding Drop}" />
+                        <Button Content="Get" Command="{Binding Get}" Classes="Primary" />
+                        <Button Content="Check Exists" Command="{Binding Exists}" Classes="Secondary" />
+                        <Button Content="Drop" Command="{Binding Drop}" Classes="Secondary" />
                     </StackPanel>
                 </StackPanel>
             </z:HeaderedContainer>
@@ -39,8 +39,8 @@
                     <TextBox Text="{Binding BatchTexts}"
                              Watermark="Comma-separated texts (e.g. apple, banana, cherry)" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <Button Content="MSet (batch store)" Command="{Binding MSet}" />
-                        <Button Content="MGet (batch retrieve)" Command="{Binding MGet}" />
+                        <Button Content="MSet (batch store)" Command="{Binding MSet}" Classes="Primary" />
+                        <Button Content="MGet (batch retrieve)" Command="{Binding MGet}" Classes="Primary" />
                     </StackPanel>
                 </StackPanel>
             </z:HeaderedContainer>
@@ -50,7 +50,7 @@
             <TextBox Text="{Binding Output}" IsReadOnly="True" AcceptsReturn="True"
                      Height="140" TextWrapping="Wrap" />
 
-            <Button Content="Clear All Cache Entries" Command="{Binding Clear}" />
+            <Button Content="Clear All Cache Entries" Command="{Binding Clear}" Classes="Secondary" />
 
         </StackPanel>
     </ScrollViewer>

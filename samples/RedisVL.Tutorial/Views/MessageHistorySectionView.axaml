@@ -22,7 +22,8 @@
                              AcceptsReturn="True"
                              Height="60" />
                     <Button Content="Add Message"
-                            Command="{Binding AddMessage}" />
+                            Command="{Binding AddMessage}"
+                            Classes="Primary" />
                 </StackPanel>
             </z:HeaderedContainer>
 
@@ -33,9 +34,11 @@
                              Watermark="Semantic search query" />
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <Button Content="Search Relevant"
-                                Command="{Binding SearchRelevant}" />
+                                Command="{Binding SearchRelevant}"
+                                Classes="Primary" />
                         <Button Content="Get Recent (5)"
-                                Command="{Binding GetRecent}" />
+                                Command="{Binding GetRecent}"
+                                Classes="Secondary" />
                     </StackPanel>
                 </StackPanel>
             </z:HeaderedContainer>
@@ -49,7 +52,8 @@
                      TextWrapping="Wrap" />
 
             <Button Content="Clear History"
-                    Command="{Binding Clear}" />
+                    Command="{Binding Clear}"
+                    Classes="Secondary" />
 
         </StackPanel>
     </ScrollViewer>

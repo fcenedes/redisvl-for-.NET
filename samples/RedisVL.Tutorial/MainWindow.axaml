@@ -4,17 +4,34 @@
         xmlns:v="using:RedisVL.Tutorial.Views"
         x:Class="RedisVL.Tutorial.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Title="RedisVL .NET Tutorial"
-        Width="900" Height="700">
+        Title="RedisVL for .NET"
+        Width="900" Height="700"
+        Background="{DynamicResource BgPrimaryBrush}">
 
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Text="RedisVL .NET Tutorial"
-                   FontSize="24" FontWeight="Bold"
-                   Margin="16,12" />
+        <!-- Redis Red accent bar -->
+        <Border DockPanel.Dock="Top"
+                Height="4"
+                Background="{DynamicResource RedisRedBrush}" />
 
-        <v:VectorizerConfig DockPanel.Dock="Top"
-                            DataContext="{Binding VectorizerConfig}"
-                            Margin="16,0,16,8" />
+        <!-- App header -->
+        <Border DockPanel.Dock="Top"
+                Padding="16,12"
+                Background="{DynamicResource BgPrimaryBrush}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="RedisVL"
+                           FontSize="24" FontWeight="Bold"
+                           Foreground="{DynamicResource RedisRedBrush}" />
+                <TextBlock Text="for .NET"
+                           FontSize="24" FontWeight="Light"
+                           Foreground="{DynamicResource TextPrimaryBrush}"
+                           VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <v:SettingsPanel DockPanel.Dock="Top"
+                         DataContext="{Binding Settings}"
+                         Margin="16,0,16,8" />
 
         <TabControl ItemsSource="{Binding Sections}"
                     SelectedItem="{Binding SelectedSection}"

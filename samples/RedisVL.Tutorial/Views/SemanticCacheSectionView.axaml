@@ -18,7 +18,7 @@
                     <TextBox Watermark="Response"
                              AcceptsReturn="True" Height="80"
                              Text="{Binding StoreResponse}" />
-                    <Button Content="Store" Command="{Binding Store}" />
+                    <Button Content="Store" Command="{Binding Store}" Classes="Primary" />
                 </StackPanel>
             </z:HeaderedContainer>
 
@@ -27,7 +27,7 @@
                 <StackPanel Spacing="8">
                     <TextBox Watermark="Query prompt (e.g. Tell me about Redis)"
                              Text="{Binding CheckPrompt}" />
-                    <Button Content="Check" Command="{Binding Check}" />
+                    <Button Content="Check" Command="{Binding Check}" Classes="Primary" />
                 </StackPanel>
             </z:HeaderedContainer>
 
@@ -37,7 +37,7 @@
                      TextWrapping="Wrap"
                      Text="{Binding Output}" />
 
-            <Button Content="Clear Cache" Command="{Binding Clear}" />
+            <Button Content="Clear Cache" Command="{Binding Clear}" Classes="Secondary" />
         </StackPanel>
     </ScrollViewer>
 </UserControl>

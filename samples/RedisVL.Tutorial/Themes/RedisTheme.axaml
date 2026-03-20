@@ -1,0 +1,102 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:z="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia">
+
+    <Styles.Resources>
+        <!-- Redis Brand Colors -->
+        <Color x:Key="RedisRed">#FF4438</Color>
+        <Color x:Key="RedisRedHover">#EB352A</Color>
+        <Color x:Key="RedisRedDark">#8A221C</Color>
+        <Color x:Key="TextPrimary">#091A23</Color>
+        <Color x:Key="TextSecondary">#163341</Color>
+        <Color x:Key="TextMuted">#8A99A0</Color>
+        <Color x:Key="BgPrimary">#FFFFFF</Color>
+        <Color x:Key="BgTertiary">#B9C2C6</Color>
+        <Color x:Key="BorderLight">#19091A23</Color>
+        <Color x:Key="BorderMedium">#4D091A23</Color>
+
+        <!-- Redis Brand Brushes -->
+        <SolidColorBrush x:Key="RedisRedBrush" Color="{StaticResource RedisRed}" />
+        <SolidColorBrush x:Key="RedisRedHoverBrush" Color="{StaticResource RedisRedHover}" />
+        <SolidColorBrush x:Key="RedisRedDarkBrush" Color="{StaticResource RedisRedDark}" />
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}" />
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}" />
+        <SolidColorBrush x:Key="TextMutedBrush" Color="{StaticResource TextMuted}" />
+        <SolidColorBrush x:Key="BgPrimaryBrush" Color="{StaticResource BgPrimary}" />
+        <SolidColorBrush x:Key="BgTertiaryBrush" Color="{StaticResource BgTertiary}" />
+        <SolidColorBrush x:Key="BorderLightBrush" Color="{StaticResource BorderLight}" />
+        <SolidColorBrush x:Key="BorderMediumBrush" Color="{StaticResource BorderMedium}" />
+    </Styles.Resources>
+
+    <!-- Primary Button Style (Redis Red) -->
+    <Style Selector="Button.Primary">
+        <Setter Property="Background" Value="{DynamicResource RedisRedBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Button.Primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource RedisRedHoverBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.Primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource RedisRedDarkBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!-- Secondary Button Style -->
+    <Style Selector="Button.Secondary">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderMediumBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Padding" Value="16,8" />
+    </Style>
+    <Style Selector="Button.Secondary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TextPrimaryBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.Secondary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TextSecondaryBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!-- Default Button override (all buttons get rounded corners) -->
+    <Style Selector="Button">
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <!-- HeaderedContainer accent styling -->
+    <Style Selector="z|HeaderedContainer">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderLightBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Background" Value="{DynamicResource BgPrimaryBrush}" />
+    </Style>
+
+    <!-- Section title style -->
+    <Style Selector="TextBlock.SectionTitle">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- Muted text style -->
+    <Style Selector="TextBlock.Muted">
+        <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Output TextBox style -->
+    <Style Selector="TextBox.Output">
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderLightBrush}" />
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+</Styles>
+

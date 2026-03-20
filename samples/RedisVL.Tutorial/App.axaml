@@ -4,6 +4,7 @@
              x:Class="RedisVL.Tutorial.App">
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://RedisVL.Tutorial/Themes/RedisTheme.axaml" />
     </Application.Styles>
     <Application.DataTemplates>
         <vl:DataTypeViewLocator />
