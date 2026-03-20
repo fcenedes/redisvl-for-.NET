@@ -31,9 +31,15 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
 
         AvailableRoles = new[] { "user", "assistant", "system" };
 
-        // Recreate history when vectorizer changes
+        // Recreate history when vectorizer or Redis URL changes
         disposables.Add(
             vectorizerService.VectorizerChanged
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(_ => RecreateHistory()));
+
+        disposables.Add(
+            vectorizerService.RedisUrlChanged
+                .Skip(1)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(_ => RecreateHistory()));
 
@@ -78,6 +84,7 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
         history = new SemanticMessageHistory(
             name: "tutorial-history",
             vectorizer: vectorizerService.CurrentVectorizer,
+            redisUrl: vectorizerService.RedisUrl,
             distanceThreshold: 0.9);
 
         return history;

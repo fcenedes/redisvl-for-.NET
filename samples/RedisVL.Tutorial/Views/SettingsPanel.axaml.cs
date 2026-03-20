@@ -3,9 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace RedisVL.Tutorial.Views;
 
-public partial class VectorizerConfig : UserControl
+public partial class SettingsPanel : UserControl
 {
-    public VectorizerConfig()
+    public SettingsPanel()
     {
         InitializeComponent();
     }

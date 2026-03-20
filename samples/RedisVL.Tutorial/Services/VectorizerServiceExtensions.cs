@@ -4,18 +4,23 @@ using RedisVL.Tutorial.ViewModels;
 namespace RedisVL.Tutorial.Services;
 
 /// <summary>
-/// Extension methods for registering vectorizer services in the DI container.
-/// Called from CompositionRoot (created by Task 1).
+/// Extension methods for registering vectorizer and settings services in the DI container.
+/// Called from CompositionRoot.
 /// </summary>
 public static class VectorizerServiceExtensions
 {
     /// <summary>
-    /// Registers the VectorizerService (singleton) and VectorizerConfigViewModel (transient).
+    /// Registers SettingsService (singleton), VectorizerService (singleton), and SettingsViewModel (transient).
     /// </summary>
     public static IServiceCollection AddVectorizerServices(this IServiceCollection services)
     {
-        services.AddSingleton<VectorizerService>();
-        services.AddTransient<VectorizerConfigViewModel>();
+        services.AddSingleton<SettingsService>();
+        services.AddSingleton(sp =>
+        {
+            var settings = sp.GetRequiredService<SettingsService>().Settings;
+            return new VectorizerService(settings);
+        });
+        services.AddTransient<SettingsViewModel>();
         return services;
     }
 }

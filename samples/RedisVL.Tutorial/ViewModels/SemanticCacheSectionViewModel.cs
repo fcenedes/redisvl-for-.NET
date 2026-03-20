@@ -38,6 +38,11 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(_ => RecreateCache()));
 
+        disposables.Add(vectorizerService.RedisUrlChanged
+            .Skip(1)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(_ => RecreateCache()));
+
         var canStore = this.WhenAnyValue(
                 x => x.StorePrompt, x => x.IsBusy,
                 (prompt, busy) => !string.IsNullOrWhiteSpace(prompt) && !busy);
@@ -64,6 +69,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         cache = new SemanticCache(
             name: "tutorial-cache",
             vectorizer: vectorizerService.CurrentVectorizer,
+            redisUrl: vectorizerService.RedisUrl,
             distanceThreshold: 0.3);
         Output = vectorizerService.Mode == VectorizerMode.Demo
             ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."

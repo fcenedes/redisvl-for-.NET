@@ -26,7 +26,17 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     public EmbeddingsCacheSectionViewModel(VectorizerService vectorizerService)
     {
         this.vectorizerService = vectorizerService;
-        cache = new EmbeddingsCache(prefix: "tutorial-emb");
+        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+
+        disposables.Add(vectorizerService.RedisUrlChanged
+            .Skip(1)
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(_ =>
+            {
+                cache.Dispose();
+                cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+                Output = "Redis URL changed — embeddings cache reconnected.";
+            }));
 
         var canExecuteSingle = this.WhenAnyValue(x => x.Text, t => !string.IsNullOrWhiteSpace(t));
         var canExecuteBatch = this.WhenAnyValue(x => x.BatchTexts, t => !string.IsNullOrWhiteSpace(t));

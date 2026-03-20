@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+             x:Class="RedisVL.Tutorial.Views.SettingsPanel"
+             x:DataType="vm:SettingsViewModel">
+
+    <Border Padding="12" CornerRadius="8"
+            Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+        <StackPanel Spacing="10">
+
+            <TextBlock Text="Settings"
+                       FontWeight="SemiBold" FontSize="14" />
+
+            <TextBlock Text="{Binding StatusMessage}"
+                       FontSize="12" Opacity="0.7"
+                       TextWrapping="Wrap" />
+
+            <StackPanel Orientation="Horizontal" Spacing="12">
+
+                <!-- Redis URL -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Redis URL" FontSize="12" />
+                    <TextBox Text="{Binding RedisUrl}"
+                             Watermark="redis://localhost:6379"
+                             MinWidth="220" />
+                </StackPanel>
+
+                <!-- Connection Status -->
+                <StackPanel Spacing="4" VerticalAlignment="Bottom">
+                    <TextBlock Text="{Binding ConnectionStatus}"
+                               FontSize="12"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="12">
+
+                <!-- Vectorizer Mode -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Mode" FontSize="12" />
+                    <ComboBox ItemsSource="{Binding AvailableModes}"
+                              SelectedItem="{Binding SelectedMode}"
+                              MinWidth="140" />
+                </StackPanel>
+
+                <!-- API Key -->
+                <StackPanel Spacing="4"
+                            IsVisible="{Binding ShowApiKey}">
+                    <TextBlock Text="{Binding ApiKeyLabel}" FontSize="12" />
+                    <TextBox Text="{Binding ApiKey}"
+                             PasswordChar="•"
+                             Watermark="Enter your key..."
+                             MinWidth="250" />
+                </StackPanel>
+
+                <!-- Save Button -->
+                <Button Content="Save"
+                        Command="{Binding Save}"
+                        VerticalAlignment="Bottom"
+                        Classes="accent" />
+
+            </StackPanel>
+
+        </StackPanel>
+    </Border>
+
+</UserControl>
+

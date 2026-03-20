@@ -53,6 +53,12 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
             vectorizerService.VectorizerChanged
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Subscribe(_ => RecreateRouter()));
+
+        disposables.Add(
+            vectorizerService.RedisUrlChanged
+                .Skip(1)
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .Subscribe(_ => RecreateRouter()));
     }
 
     public string Title => "Semantic Router";
@@ -121,7 +127,8 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
         router = new SemanticRouter(
             name: "tutorial-router",
             routes: CreateRoutes().ConvertAll(r => r.ToRoute()),
-            vectorizer: vectorizerService.CurrentVectorizer);
+            vectorizer: vectorizerService.CurrentVectorizer,
+            redisUrl: vectorizerService.RedisUrl);
     }
 
     private static List<RouteInfo> CreateRoutes()

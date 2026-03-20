@@ -15,16 +15,16 @@ public partial class MainWindowViewModel : ReactiveObject
 
     public ReadOnlyObservableCollection<ReactiveObject> Sections { get; }
 
-    public VectorizerConfigViewModel VectorizerConfig { get; }
+    public SettingsViewModel Settings { get; }
 
     public MainWindowViewModel(
         SemanticCacheSectionViewModel semanticCache,
         EmbeddingsCacheSectionViewModel embeddingsCache,
         MessageHistorySectionViewModel messageHistory,
         SemanticRouterSectionViewModel semanticRouter,
-        VectorizerConfigViewModel vectorizerConfig)
+        SettingsViewModel settings)
     {
-        VectorizerConfig = vectorizerConfig;
+        Settings = settings;
 
         var sections = new ObservableCollection<ReactiveObject>(new ReactiveObject[]
         {

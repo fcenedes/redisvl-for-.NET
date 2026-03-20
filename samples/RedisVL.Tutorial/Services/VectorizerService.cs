@@ -20,6 +20,7 @@ public partial class VectorizerService : ReactiveObject
 
     [Reactive] private VectorizerMode mode;
     [Reactive] private string apiKey = string.Empty;
+    [Reactive] private string redisUrl = "redis://localhost:6379";
 
     public VectorizerService()
     {
@@ -31,6 +32,17 @@ public partial class VectorizerService : ReactiveObject
             .Select(t => CreateVectorizer(t.Item1, t.Item2))
             .Do(v => CurrentVectorizer = v)
             .Select(_ => System.Reactive.Unit.Default);
+
+        RedisUrlChanged = this.WhenAnyValue(x => x.RedisUrl)
+            .DistinctUntilChanged();
+    }
+
+    public VectorizerService(AppSettings settings) : this()
+    {
+        mode = settings.VectorizerMode;
+        apiKey = settings.OpenAiApiKey;
+        redisUrl = settings.RedisUrl;
+        CurrentVectorizer = CreateVectorizer(mode, apiKey);
     }
 
     /// <summary>
@@ -43,6 +55,12 @@ public partial class VectorizerService : ReactiveObject
     /// Consumers should subscribe to this to recreate their caches.
     /// </summary>
     public IObservable<System.Reactive.Unit> VectorizerChanged { get; }
+
+    /// <summary>
+    /// Observable that fires when the Redis URL changes.
+    /// Consumers should subscribe to this to reconnect.
+    /// </summary>
+    public IObservable<string> RedisUrlChanged { get; }
 
     /// <summary>
     /// Gets the embedding dimensions for the current mode.
