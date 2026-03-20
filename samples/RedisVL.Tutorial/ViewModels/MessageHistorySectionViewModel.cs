@@ -35,17 +35,13 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
         disposables.Add(
             vectorizerService.VectorizerChanged
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(
-                    _ => RecreateHistory(),
-                    ex => Output = $"⚠️ Error: {ex.Message}"));
+                .Subscribe(_ => RecreateHistory()));
 
         disposables.Add(
             vectorizerService.RedisUrlChanged
                 .Skip(1)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(
-                    _ => RecreateHistory(),
-                    ex => Output = $"⚠️ Error: {ex.Message}"));
+                .Subscribe(_ => RecreateHistory()));
 
         var canAddMessage = this.WhenAnyValue(x => x.MessageContent,
             content => !string.IsNullOrWhiteSpace(content));
@@ -96,17 +92,9 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
 
     private void RecreateHistory()
     {
-        try
-        {
-            history?.Dispose();
-            history = null;
-            Output = "Vectorizer changed — history instance will be recreated on next operation.";
-        }
-        catch (Exception ex)
-        {
-            history = null;
-            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-        }
+        history?.Dispose();
+        history = null;
+        Output = "Vectorizer changed — history instance will be recreated on next operation.";
     }
 
     private async Task ExecuteAddMessage()

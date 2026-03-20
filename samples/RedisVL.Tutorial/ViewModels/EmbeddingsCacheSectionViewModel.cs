@@ -26,35 +26,17 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     public EmbeddingsCacheSectionViewModel(VectorizerService vectorizerService)
     {
         this.vectorizerService = vectorizerService;
-        try
-        {
-            cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
-        }
-        catch (Exception ex)
-        {
-            cache = null!;
-            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-        }
+        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(
-                _ =>
-                {
-                    try
-                    {
-                        cache?.Dispose();
-                        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
-                        Output = "Redis URL changed — embeddings cache reconnected.";
-                    }
-                    catch (Exception ex)
-                    {
-                        cache = null!;
-                        Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-                    }
-                },
-                ex => Output = $"⚠️ Error: {ex.Message}"));
+            .Subscribe(_ =>
+            {
+                cache.Dispose();
+                cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+                Output = "Redis URL changed — embeddings cache reconnected.";
+            }));
 
         var canExecuteSingle = this.WhenAnyValue(x => x.Text, t => !string.IsNullOrWhiteSpace(t));
         var canExecuteBatch = this.WhenAnyValue(x => x.BatchTexts, t => !string.IsNullOrWhiteSpace(t));

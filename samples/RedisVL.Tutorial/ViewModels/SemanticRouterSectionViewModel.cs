@@ -52,17 +52,13 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
         disposables.Add(
             vectorizerService.VectorizerChanged
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(
-                    _ => RecreateRouter(),
-                    ex => Output = $"⚠️ Error: {ex.Message}"));
+                .Subscribe(_ => RecreateRouter()));
 
         disposables.Add(
             vectorizerService.RedisUrlChanged
                 .Skip(1)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(
-                    _ => RecreateRouter(),
-                    ex => Output = $"⚠️ Error: {ex.Message}"));
+                .Subscribe(_ => RecreateRouter()));
     }
 
     public string Title => "Semantic Router";
@@ -117,19 +113,11 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
 
     private void RecreateRouter()
     {
-        try
-        {
-            router?.Dispose();
-            router = null;
-            Output = "Vectorizer changed — router will be re-initialized on next query.";
-            MatchedRoute = string.Empty;
-            MatchDistance = string.Empty;
-        }
-        catch (Exception ex)
-        {
-            router = null;
-            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-        }
+        router?.Dispose();
+        router = null;
+        Output = "Vectorizer changed — router will be re-initialized on next query.";
+        MatchedRoute = string.Empty;
+        MatchDistance = string.Empty;
     }
 
     private void EnsureRouter()
