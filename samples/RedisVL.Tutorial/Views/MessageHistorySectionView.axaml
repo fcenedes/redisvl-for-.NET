@@ -11,9 +11,18 @@
             <TextBlock TextWrapping="Wrap"
                        Text="Store conversation messages with semantic search. Uses SemanticMessageHistory with vectorizer to find relevant messages by meaning." />
 
+            <!-- Session -->
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                <TextBlock Text="Session:" VerticalAlignment="Center" FontWeight="SemiBold" />
+                <ComboBox ItemsSource="{Binding SessionService.AvailableSessions}"
+                          SelectedItem="{Binding SessionService.CurrentSessionName}"
+                          IsEditable="True"
+                          MinWidth="200" />
+            </StackPanel>
+
             <!-- Add Message -->
-            <z:HeaderedContainer Header="Add Message">
-                <StackPanel Spacing="8">
+            <Expander Header="Add Message" IsExpanded="False">
+                <StackPanel Spacing="8" Margin="0,8,0,0">
                     <ComboBox ItemsSource="{Binding AvailableRoles}"
                               SelectedItem="{Binding SelectedRole}"
                               MinWidth="200" />
@@ -25,7 +34,7 @@
                             Command="{Binding AddMessage}"
                             Classes="Primary" />
                 </StackPanel>
-            </z:HeaderedContainer>
+            </Expander>
 
             <!-- Search -->
             <z:HeaderedContainer Header="Search Messages">

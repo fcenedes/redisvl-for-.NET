@@ -16,6 +16,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
     private readonly VectorizerService vectorizerService;
     private readonly LlmService llmService;
     private readonly MetricsService metricsService;
+    private readonly SessionService sessionService;
     private readonly CompositeDisposable disposables = new();
     private SemanticCache? cache;
 
@@ -37,11 +38,13 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
     public SemanticCacheSectionViewModel(
         VectorizerService vectorizerService,
         LlmService llmService,
-        MetricsService metricsService)
+        MetricsService metricsService,
+        SessionService sessionService)
     {
         this.vectorizerService = vectorizerService;
         this.llmService = llmService;
         this.metricsService = metricsService;
+        this.sessionService = sessionService;
 
         RecreateCache();
 
@@ -191,7 +194,8 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
                 Console.WriteLine($"[SemanticCache] LLM response: {response.Content?.Substring(0, Math.Min(100, response.Content?.Length ?? 0))}...");
 
                 // Cache the response for future queries
-                await cache.StoreAsync(AskPrompt, response.Content);
+                await cache.StoreAsync(AskPrompt, response.Content,
+                    new Dictionary<string, string> { ["session"] = sessionService.CurrentSessionName });
 
                 metricsService.RecordApiCall(response);
                 Output = $"🌐 API CALL — Response: {response.Content}, Tokens: {response.TotalTokens} (prompt: {response.PromptTokens}, completion: {response.CompletionTokens}), Cost: ${response.EstimatedCost:F4}, Time: {response.ResponseTimeMs}ms";

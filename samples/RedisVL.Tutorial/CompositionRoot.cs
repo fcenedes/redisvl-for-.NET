@@ -14,6 +14,7 @@ public static class CompositionRoot
             .AddVectorizerServices()
             .AddSingleton<LlmService>()
             .AddSingleton<MetricsService>()
+            .AddSingleton<SessionService>()
             .AddTransient<SemanticCacheSectionViewModel>()
             .AddTransient<EmbeddingsCacheSectionViewModel>()
             .AddTransient<MessageHistorySectionViewModel>()

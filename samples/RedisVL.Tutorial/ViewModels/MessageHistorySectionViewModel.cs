@@ -25,9 +25,12 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
     [Reactive] private string searchQuery = string.Empty;
     [Reactive] private string output = string.Empty;
 
-    public MessageHistorySectionViewModel(VectorizerService vectorizerService)
+    public SessionService SessionService { get; }
+
+    public MessageHistorySectionViewModel(VectorizerService vectorizerService, SessionService sessionService)
     {
         this.vectorizerService = vectorizerService;
+        SessionService = sessionService;
 
         AvailableRoles = new[] { "user", "assistant", "system" };
 
@@ -42,6 +45,18 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
                 .Skip(1)
                 .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(_ => RecreateHistory(), ex => Output = $"⚠️ Error: {ex.Message}"));
+
+        // Recreate history when session changes and auto-load recent
+        disposables.Add(
+            sessionService.WhenAnyValue(x => x.CurrentSessionName)
+                .Skip(1)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
+                .Subscribe(_ =>
+                {
+                    RecreateHistory();
+                    // Auto-load recent messages for the new session
+                    GetRecent?.Execute().Subscribe(_ => { }, _ => { });
+                }));
 
         var canAddMessage = this.WhenAnyValue(x => x.MessageContent,
             content => !string.IsNullOrWhiteSpace(content));
@@ -88,7 +103,7 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
         try
         {
             history = new SemanticMessageHistory(
-                name: "tutorial-history",
+                name: SessionService.CurrentSessionName,
                 vectorizer: vectorizerService.CurrentVectorizer,
                 redisUrl: vectorizerService.RedisUrl,
                 distanceThreshold: 0.9);
@@ -119,8 +134,10 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
             new Message { Role = role, Content = content }
         });
 
-        Output = $"Added message: [{role}] {content}";
         MessageContent = string.Empty;
+
+        // Auto-refresh to show updated history
+        await ExecuteGetRecent();
     }
 
     private async Task ExecuteGetRecent()
