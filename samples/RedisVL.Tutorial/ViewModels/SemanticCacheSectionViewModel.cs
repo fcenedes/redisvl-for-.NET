@@ -45,12 +45,12 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         RecreateCache();
 
         disposables.Add(vectorizerService.VectorizerChanged
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ => RecreateCache(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ => RecreateCache(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         var canStore = this.WhenAnyValue(

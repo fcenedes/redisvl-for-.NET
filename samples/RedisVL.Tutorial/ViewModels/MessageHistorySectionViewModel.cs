@@ -34,13 +34,13 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
         // Recreate history when vectorizer or Redis URL changes
         disposables.Add(
             vectorizerService.VectorizerChanged
-                .ObserveOn(RxApp.MainThreadScheduler)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(_ => RecreateHistory(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         disposables.Add(
             vectorizerService.RedisUrlChanged
                 .Skip(1)
-                .ObserveOn(RxApp.MainThreadScheduler)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(_ => RecreateHistory(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         var canAddMessage = this.WhenAnyValue(x => x.MessageContent,
@@ -59,7 +59,7 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
                 .Merge(GetRecent.ThrownExceptions)
                 .Merge(SearchRelevant.ThrownExceptions)
                 .Merge(Clear.ThrownExceptions)
-                .ObserveOn(RxApp.MainThreadScheduler)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(ex => Output = $"Error: {ex.Message}"));
 
         disposables.Add(AddMessage);

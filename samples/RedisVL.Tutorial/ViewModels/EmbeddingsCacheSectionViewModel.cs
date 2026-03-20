@@ -38,7 +38,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ =>
             {
                 try

@@ -42,19 +42,19 @@ public partial class MetricsDashboardViewModel : ReactiveObject, IDisposable
         disposables.Add(ResetCommand);
 
         disposables.Add(metrics.WhenAnyValue(x => x.CacheHitRate)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => HitRateDisplay = $"{v:F1}%"));
 
         disposables.Add(metrics.WhenAnyValue(x => x.TotalSavings)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => SavingsDisplay = FormatCost(v)));
 
         disposables.Add(metrics.WhenAnyValue(x => x.TotalApiCost)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => ApiCostDisplay = FormatCost(v)));
 
         disposables.Add(metrics.WhenAnyValue(x => x.TotalQuestions)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v =>
             {
                 QuestionsDisplay = v.ToString("N0");
@@ -62,35 +62,35 @@ public partial class MetricsDashboardViewModel : ReactiveObject, IDisposable
             }));
 
         disposables.Add(metrics.WhenAnyValue(x => x.CacheHits)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => CacheHitsDisplay = v.ToString("N0")));
 
         disposables.Add(metrics.WhenAnyValue(x => x.CacheMisses)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => CacheMissesDisplay = v.ToString("N0")));
 
         disposables.Add(metrics.WhenAnyValue(x => x.TotalTokensUsed)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => TokensDisplay = v.ToString("N0")));
 
         disposables.Add(metrics.WhenAnyValue(x => x.TotalPromptTokens)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => PromptTokensDisplay = v.ToString("N0")));
 
         disposables.Add(metrics.WhenAnyValue(x => x.TotalCompletionTokens)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => CompletionTokensDisplay = v.ToString("N0")));
 
         disposables.Add(metrics.WhenAnyValue(x => x.AverageCacheTimeMs)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => CacheTimeDisplay = $"{v:F0}ms"));
 
         disposables.Add(metrics.WhenAnyValue(x => x.AverageApiTimeMs)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => ApiTimeDisplay = $"{v:F0}ms"));
 
         disposables.Add(metrics.WhenAnyValue(x => x.LastResponseTimeMs)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(v => LastResponseDisplay = $"{v}ms"));
     }
 

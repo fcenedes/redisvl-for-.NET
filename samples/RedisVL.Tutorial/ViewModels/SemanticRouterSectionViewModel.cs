@@ -51,13 +51,13 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
 
         disposables.Add(
             vectorizerService.VectorizerChanged
-                .ObserveOn(RxApp.MainThreadScheduler)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(_ => RecreateRouter(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         disposables.Add(
             vectorizerService.RedisUrlChanged
                 .Skip(1)
-                .ObserveOn(RxApp.MainThreadScheduler)
+                .ObserveOn(RxSchedulers.MainThreadScheduler)
                 .Subscribe(_ => RecreateRouter(), ex => Output = $"⚠️ Error: {ex.Message}"));
     }
 

@@ -40,7 +40,7 @@ public partial class VectorizerService : ReactiveObject
                     return CreateDemoVectorizer();
                 }
             })
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Do(v => CurrentVectorizer = v)
             .Select(_ => System.Reactive.Unit.Default);
 

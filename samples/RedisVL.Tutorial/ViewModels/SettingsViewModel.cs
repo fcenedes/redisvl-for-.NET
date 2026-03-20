@@ -69,7 +69,7 @@ public partial class SettingsViewModel : ReactiveObject, IDisposable
         disposables.Add(Save);
 
         disposables.Add(Save.ThrownExceptions
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(ex => ConnectionStatus = $"Error: {ex.Message}"));
     }
 
