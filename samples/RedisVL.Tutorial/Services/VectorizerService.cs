@@ -29,7 +29,17 @@ public partial class VectorizerService : ReactiveObject
 
         VectorizerChanged = this.WhenAnyValue(x => x.Mode, x => x.ApiKey)
             .Throttle(TimeSpan.FromMilliseconds(100))
-            .Select(t => CreateVectorizer(t.Item1, t.Item2))
+            .Select(t =>
+            {
+                try
+                {
+                    return CreateVectorizer(t.Item1, t.Item2);
+                }
+                catch
+                {
+                    return CreateDemoVectorizer();
+                }
+            })
             .Do(v => CurrentVectorizer = v)
             .Select(_ => System.Reactive.Unit.Default);
 

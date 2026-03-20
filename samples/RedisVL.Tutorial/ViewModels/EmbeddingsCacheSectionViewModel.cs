@@ -16,7 +16,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 {
     private readonly CompositeDisposable disposables = new();
     private readonly VectorizerService vectorizerService;
-    private EmbeddingsCache cache;
+    private EmbeddingsCache? cache;
 
     [Reactive] private string text = string.Empty;
     [Reactive] private string modelName = "demo-model";
@@ -26,17 +26,36 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     public EmbeddingsCacheSectionViewModel(VectorizerService vectorizerService)
     {
         this.vectorizerService = vectorizerService;
-        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+
+        try
+        {
+            cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+        }
+        catch (Exception ex)
+        {
+            cache = null;
+            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
+        }
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ =>
-            {
-                cache.Dispose();
-                cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
-                Output = "Redis URL changed — embeddings cache reconnected.";
-            }));
+            .Subscribe(
+                _ =>
+                {
+                    try
+                    {
+                        cache?.Dispose();
+                        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+                        Output = "Redis URL changed — embeddings cache reconnected.";
+                    }
+                    catch (Exception ex)
+                    {
+                        cache = null;
+                        Output = $"⚠️ Could not connect to Redis: {ex.Message}";
+                    }
+                },
+                ex => Output = $"⚠️ Error: {ex.Message}"));
 
         var canExecuteSingle = this.WhenAnyValue(x => x.Text, t => !string.IsNullOrWhiteSpace(t));
         var canExecuteBatch = this.WhenAnyValue(x => x.BatchTexts, t => !string.IsNullOrWhiteSpace(t));
@@ -151,7 +170,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     public void Dispose()
     {
         disposables.Dispose();
-        cache.Dispose();
+        cache?.Dispose();
     }
 }
 
