@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using RedisVL.Index;
 using RedisVL.Query;
@@ -69,7 +70,7 @@ public class SemanticRouter : IDisposable
             
             // Get the route's distance threshold
             var thresholdStr = doc.GetField<string>("distance_threshold");
-            var threshold = double.TryParse(thresholdStr, out var t) ? t : 0.5;
+            var threshold = double.TryParse(thresholdStr, NumberStyles.Float, CultureInfo.InvariantCulture, out var t) ? t : 0.5;
             
             if (distance <= threshold)
             {

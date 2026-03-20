@@ -82,6 +82,7 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
 
         if (match != null)
         {
+            Console.WriteLine($"[{Title}] Match: route=\"{match.Name}\", distance={match.Distance:F4}, reference=\"{match.MatchedReference}\"");
             MatchedRoute = match.Name;
             MatchDistance = match.Distance.ToString("F4");
             Output = $"✅ Matched route: \"{match.Name}\"\n" +
@@ -90,6 +91,7 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
         }
         else
         {
+            Console.WriteLine($"[{Title}] No match for query=\"{QueryText}\". No route's distance threshold was met.");
             MatchedRoute = "(no match)";
             MatchDistance = "—";
             Output = "❌ No route matched the query.\n" +
