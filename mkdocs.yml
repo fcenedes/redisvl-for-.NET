@@ -1,0 +1,72 @@
+site_name: RedisVL for .NET
+site_description: A .NET client library for Redis vector search and AI-powered extensions
+site_url: https://redis.github.io/redis-vl-dotnet/
+repo_url: https://github.com/redis/redis-vl-dotnet
+repo_name: redis/redis-vl-dotnet
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - User Guide:
+      - Schema Definition: user-guide/schema.md
+      - Queries: user-guide/queries.md
+      - Filters: user-guide/filters.md
+      - Vectorizers: user-guide/vectorizers.md
+      - Extensions: user-guide/extensions.md
+      - Connections: user-guide/connections.md
+  - API Reference: api/reference.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - admonition
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/redis/redis-vl-dotnet
+  generator: false
+
