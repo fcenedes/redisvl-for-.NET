@@ -15,12 +15,17 @@ public partial class MainWindowViewModel : ReactiveObject
 
     public ReadOnlyObservableCollection<ReactiveObject> Sections { get; }
 
+    public VectorizerConfigViewModel VectorizerConfig { get; }
+
     public MainWindowViewModel(
         SemanticCacheSectionViewModel semanticCache,
         EmbeddingsCacheSectionViewModel embeddingsCache,
         MessageHistorySectionViewModel messageHistory,
-        SemanticRouterSectionViewModel semanticRouter)
+        SemanticRouterSectionViewModel semanticRouter,
+        VectorizerConfigViewModel vectorizerConfig)
     {
+        VectorizerConfig = vectorizerConfig;
+
         var sections = new ObservableCollection<ReactiveObject>(new ReactiveObject[]
         {
             semanticCache,

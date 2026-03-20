@@ -1,16 +1,17 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+             xmlns:z="clr-namespace:Zafiro.Avalonia.Controls;assembly=Zafiro.Avalonia"
              x:Class="RedisVL.Tutorial.Views.SemanticCacheSectionView"
              x:DataType="vm:SemanticCacheSectionViewModel">
     <ScrollViewer>
-        <StackPanel Margin="16" Spacing="12">
+        <StackPanel Margin="16" Spacing="16">
             <TextBlock Text="Semantic Cache" FontSize="18" FontWeight="SemiBold" />
             <TextBlock TextWrapping="Wrap"
                        Text="Cache LLM responses and retrieve them by semantic similarity. In Demo mode, only exact text matches work. Switch to OpenAI or HuggingFace for true semantic matching." />
 
             <!-- Store Section -->
-            <HeaderedContentControl Header="Store a Response">
+            <z:HeaderedContainer Header="Store a Response">
                 <StackPanel Spacing="8">
                     <TextBox Watermark="Prompt (e.g. What is Redis?)"
                              Text="{Binding StorePrompt}" />
@@ -19,16 +20,16 @@
                              Text="{Binding StoreResponse}" />
                     <Button Content="Store" Command="{Binding Store}" />
                 </StackPanel>
-            </HeaderedContentControl>
+            </z:HeaderedContainer>
 
             <!-- Check Section -->
-            <HeaderedContentControl Header="Check Cache">
+            <z:HeaderedContainer Header="Check Cache">
                 <StackPanel Spacing="8">
                     <TextBox Watermark="Query prompt (e.g. Tell me about Redis)"
                              Text="{Binding CheckPrompt}" />
                     <Button Content="Check" Command="{Binding Check}" />
                 </StackPanel>
-            </HeaderedContentControl>
+            </z:HeaderedContainer>
 
             <!-- Output -->
             <TextBlock Text="Output:" FontWeight="SemiBold" />

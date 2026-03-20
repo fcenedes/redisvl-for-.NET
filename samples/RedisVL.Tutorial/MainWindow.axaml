@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+        xmlns:v="using:RedisVL.Tutorial.Views"
         x:Class="RedisVL.Tutorial.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="RedisVL .NET Tutorial"
@@ -10,6 +11,10 @@
         <TextBlock DockPanel.Dock="Top" Text="RedisVL .NET Tutorial"
                    FontSize="24" FontWeight="Bold"
                    Margin="16,12" />
+
+        <v:VectorizerConfig DockPanel.Dock="Top"
+                            DataContext="{Binding VectorizerConfig}"
+                            Margin="16,0,16,8" />
 
         <TabControl ItemsSource="{Binding Sections}"
                     SelectedItem="{Binding SelectedSection}"
