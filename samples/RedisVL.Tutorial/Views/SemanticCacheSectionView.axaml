@@ -10,6 +10,16 @@
             <TextBlock TextWrapping="Wrap"
                        Text="Cache LLM responses and retrieve them by semantic similarity. In Demo mode, only exact text matches work. Switch to OpenAI or HuggingFace for true semantic matching." />
 
+            <!-- Distance Threshold -->
+            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                <TextBlock Text="Distance Threshold:" VerticalAlignment="Center" />
+                <Slider Minimum="0.01" Maximum="1.0"
+                        Value="{Binding DistanceThreshold}"
+                        Width="200" TickFrequency="0.05" IsSnapToTickEnabled="True" />
+                <TextBlock Text="{Binding DistanceThreshold, StringFormat='{}{0:F2}'}"
+                           VerticalAlignment="Center" FontWeight="SemiBold" />
+            </StackPanel>
+
             <!-- Ask LLM Section -->
             <z:HeaderedContainer Header="Ask LLM (with Semantic Cache)">
                 <StackPanel Spacing="8">

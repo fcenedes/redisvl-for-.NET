@@ -45,11 +45,21 @@ public class SemanticCache : IDisposable
 {
     private readonly SearchIndex _index;
     private readonly ITextVectorizer _vectorizer;
-    private readonly double _distanceThreshold;
+    private double _distanceThreshold;
     private readonly TimeSpan? _ttl;
     private readonly string _name;
     private bool _initialized;
-    
+
+    /// <summary>
+    /// Gets or sets the distance threshold for cache hits (lower = stricter).
+    /// Can be changed at runtime without recreating the cache.
+    /// </summary>
+    public double DistanceThreshold
+    {
+        get => _distanceThreshold;
+        set => _distanceThreshold = value;
+    }
+
     /// <summary>
     /// Creates a semantic cache.
     /// </summary>

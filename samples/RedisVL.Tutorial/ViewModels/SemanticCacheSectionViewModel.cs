@@ -25,6 +25,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
     [Reactive] private string askPrompt = string.Empty;
     [Reactive] private string output = string.Empty;
     [Reactive] private bool isBusy;
+    [Reactive] private double distanceThreshold = 0.3;
 
     public string Title => "Semantic Cache";
 
@@ -52,6 +53,10 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             .Skip(1)
             .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ => RecreateCache(), ex => Output = $"⚠️ Error: {ex.Message}"));
+
+        disposables.Add(this.WhenAnyValue(x => x.DistanceThreshold)
+            .Skip(1)
+            .Subscribe(t => { if (cache != null) cache.DistanceThreshold = t; }));
 
         var canStore = this.WhenAnyValue(
                 x => x.StorePrompt, x => x.IsBusy,
@@ -93,7 +98,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
                 name: "tutorial-cache",
                 vectorizer: vectorizerService.CurrentVectorizer,
                 redisUrl: vectorizerService.RedisUrl,
-                distanceThreshold: 0.3);
+                distanceThreshold: DistanceThreshold);
             Console.WriteLine("[SemanticCache] Cache created successfully");
             Output = vectorizerService.Mode == VectorizerMode.Demo
                 ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."
