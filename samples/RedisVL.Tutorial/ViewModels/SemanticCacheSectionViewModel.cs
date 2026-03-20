@@ -109,7 +109,8 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
-            await cache!.StoreAsync(StorePrompt, StoreResponse);
+            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
+            await cache.StoreAsync(StorePrompt, StoreResponse);
             Output = $"Stored: \"{StorePrompt}\" → \"{StoreResponse}\"";
         }
         finally
@@ -123,7 +124,8 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
-            var results = await cache!.CheckAsync(CheckPrompt);
+            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
+            var results = await cache.CheckAsync(CheckPrompt);
             if (results.Count > 0)
             {
                 var sb = new StringBuilder();
@@ -156,7 +158,8 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             var stopwatch = Stopwatch.StartNew();
 
             // Check cache first
-            var results = await cache!.CheckAsync(AskPrompt);
+            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
+            var results = await cache.CheckAsync(AskPrompt);
             if (results.Count > 0)
             {
                 stopwatch.Stop();
@@ -189,7 +192,8 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
-            await cache!.ClearAsync();
+            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
+            await cache.ClearAsync();
             Output = "Cache cleared.";
         }
         finally

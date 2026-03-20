@@ -91,6 +91,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteSet()
     {
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var embedding = await vectorizerService.CurrentVectorizer.EmbedAsync(Text);
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var key = await cache.SetAsync(Text, model, embedding);
@@ -102,6 +103,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteGet()
     {
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var entry = await cache.GetAsync(Text, model);
         if (entry == null)
@@ -117,6 +119,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteExists()
     {
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var exists = await cache.ExistsAsync(Text, model);
         Output = $"Exists(\"{Text}\", \"{model}\"): {exists}";
@@ -124,6 +127,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteDrop()
     {
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         await cache.DropAsync(Text, model);
         Output = $"Dropped entry for \"{Text}\" (model: {model}).";
@@ -134,6 +138,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
         var texts = BatchTexts.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var embeddings = await vectorizerService.CurrentVectorizer.EmbedManyAsync(texts);
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var keys = await cache.MSetAsync(texts, model, embeddings.ToList());
 
         var sb = new StringBuilder();
@@ -147,6 +152,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     {
         var texts = BatchTexts.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var results = await cache.MGetAsync(texts, model);
 
         var sb = new StringBuilder();
@@ -163,6 +169,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteClear()
     {
+        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         await cache.ClearAsync();
         Output = "All embeddings cache entries cleared.";
     }
