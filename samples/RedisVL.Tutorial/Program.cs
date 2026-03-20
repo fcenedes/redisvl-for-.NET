@@ -1,5 +1,4 @@
 using Avalonia;
-using Avalonia.ReactiveUI;
 
 namespace RedisVL.Tutorial;
 
@@ -12,7 +11,6 @@ class Program
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
-            .UseReactiveUI()
             .LogToTrace();
 }
 
