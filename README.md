@@ -5,6 +5,8 @@
 
 A .NET client library for [Redis](https://redis.io/) vector search and AI-powered extensions, inspired by [RedisVL for Python](https://github.com/redis/redis-vl-python).
 
+📖 **[Full Documentation](docs/index.md)** · 🚀 **[Getting Started](docs/getting-started.md)** · 📋 **[API Reference](docs/api/reference.md)**
+
 ## Features
 
 - **Schema-driven index management** — Define index schemas in YAML, JSON, or dictionaries; create/drop Redis search indexes
