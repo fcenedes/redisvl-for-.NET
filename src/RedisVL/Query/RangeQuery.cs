@@ -38,8 +38,15 @@ public class RangeQuery : BaseQuery
     
     public override string GetQueryString()
     {
-        var filter = GetFilterString();
-        return $"({filter} @{VectorFieldName}:[VECTOR_RANGE {DistanceThreshold.ToString(CultureInfo.InvariantCulture)} $vec_param])";
+        var vectorPart = $"@{VectorFieldName}:[VECTOR_RANGE {DistanceThreshold.ToString(CultureInfo.InvariantCulture)} $vec_param]";
+
+        if (FilterExpression != null)
+        {
+            var filter = FilterExpression.ToQueryString();
+            return $"({filter} {vectorPart})";
+        }
+
+        return vectorPart;
     }
     
     /// <summary>
