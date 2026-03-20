@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+             x:Class="RedisVL.Tutorial.Views.SemanticCacheSectionView"
+             x:DataType="vm:SemanticCacheSectionViewModel">
+    <StackPanel Margin="16" Spacing="12">
+        <TextBlock Text="Semantic Cache" FontSize="18" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap"
+                   Text="Cache LLM responses and retrieve them by semantic similarity." />
+    </StackPanel>
+</UserControl>
+

@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+             x:Class="RedisVL.Tutorial.Views.MessageHistorySectionView"
+             x:DataType="vm:MessageHistorySectionViewModel">
+    <StackPanel Margin="16" Spacing="12">
+        <TextBlock Text="Message History" FontSize="18" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap"
+                   Text="Store conversation messages with semantic search capabilities." />
+    </StackPanel>
+</UserControl>
+

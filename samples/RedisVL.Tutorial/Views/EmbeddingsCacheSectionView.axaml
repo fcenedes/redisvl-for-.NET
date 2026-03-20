@@ -1,0 +1,12 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+             x:Class="RedisVL.Tutorial.Views.EmbeddingsCacheSectionView"
+             x:DataType="vm:EmbeddingsCacheSectionViewModel">
+    <StackPanel Margin="16" Spacing="12">
+        <TextBlock Text="Embeddings Cache" FontSize="18" FontWeight="SemiBold" />
+        <TextBlock TextWrapping="Wrap"
+                   Text="Cache raw embeddings by text and model name to avoid redundant API calls." />
+    </StackPanel>
+</UserControl>
+

@@ -1,29 +1,29 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:RedisVL.Tutorial.ViewModels"
-        xmlns:views="using:RedisVL.Tutorial.Views"
         x:Class="RedisVL.Tutorial.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
         Title="RedisVL .NET Tutorial"
         Width="900" Height="700">
-    <Window.DataContext>
-        <vm:MainWindowViewModel />
-    </Window.DataContext>
 
     <DockPanel>
         <TextBlock DockPanel.Dock="Top" Text="RedisVL .NET Tutorial"
                    FontSize="24" FontWeight="Bold"
                    Margin="16,12" />
 
-        <TabControl Margin="8">
-            <TabItem Header="Semantic Cache">
-                <views:SemanticCacheDemo />
-            </TabItem>
-            <TabItem Header="Embeddings Cache">
-                <views:EmbeddingsCacheDemo />
-            </TabItem>
-            <TabItem Header="Message History">
-                <views:MessageHistoryDemo />
-            </TabItem>
+        <TabControl ItemsSource="{Binding Sections}"
+                    SelectedItem="{Binding SelectedSection}"
+                    Margin="8">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
     </DockPanel>
 </Window>
