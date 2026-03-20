@@ -1,12 +1,74 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:RedisVL.Tutorial.ViewModels"
+             xmlns:zc="using:Zafiro.Avalonia.Controls"
              x:Class="RedisVL.Tutorial.Views.SemanticRouterSectionView"
              x:DataType="vm:SemanticRouterSectionViewModel">
-    <StackPanel Margin="16" Spacing="12">
-        <TextBlock Text="Semantic Router" FontSize="18" FontWeight="SemiBold" />
-        <TextBlock TextWrapping="Wrap"
-                   Text="Route queries to different handlers based on semantic similarity." />
-    </StackPanel>
+
+    <ScrollViewer>
+        <StackPanel Margin="16" Spacing="16">
+
+            <!-- Header -->
+            <TextBlock Text="Semantic Router" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock TextWrapping="Wrap"
+                       Text="Classify user queries into predefined routes using vector similarity. Enter a query below and see which route it matches." />
+
+            <!-- Configured Routes -->
+            <zc:HeaderedContainer Header="Configured Routes">
+                <ItemsControl ItemsSource="{Binding Routes}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:RouteInfo">
+                            <Border Margin="0,4" Padding="8" CornerRadius="4"
+                                    Background="{DynamicResource SystemControlBackgroundListLowBrush}">
+                                <StackPanel Spacing="4">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding DistanceThreshold, StringFormat='(threshold: {0:F1}'}"
+                                                   Opacity="0.6" />
+                                        <TextBlock Text=")" Opacity="0.6" />
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding ReferencesDisplay}"
+                                               FontStyle="Italic" Opacity="0.8"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </zc:HeaderedContainer>
+
+            <!-- Query Input -->
+            <zc:HeaderedContainer Header="Route a Query">
+                <StackPanel Spacing="8">
+                    <TextBox Text="{Binding QueryText}"
+                             Watermark="Type a query to classify, e.g. 'hello there' or 'how do I use the API?'" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Route" Command="{Binding Route}" />
+                        <Button Content="Clear Router" Command="{Binding Clear}" />
+                    </StackPanel>
+                </StackPanel>
+            </zc:HeaderedContainer>
+
+            <!-- Match Result -->
+            <zc:HeaderedContainer Header="Result">
+                <StackPanel Spacing="8">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Matched Route:" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding MatchedRoute}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Distance:" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding MatchDistance}" />
+                    </StackPanel>
+                    <TextBox Text="{Binding Output, Mode=OneWay}"
+                             IsReadOnly="True"
+                             AcceptsReturn="True"
+                             MinHeight="80"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+            </zc:HeaderedContainer>
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
 
