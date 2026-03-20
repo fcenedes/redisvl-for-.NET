@@ -16,7 +16,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 {
     private readonly CompositeDisposable disposables = new();
     private readonly VectorizerService vectorizerService;
-    private EmbeddingsCache? cache;
+    private EmbeddingsCache cache;
 
     [Reactive] private string text = string.Empty;
     [Reactive] private string modelName = "demo-model";
@@ -26,36 +26,17 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     public EmbeddingsCacheSectionViewModel(VectorizerService vectorizerService)
     {
         this.vectorizerService = vectorizerService;
-
-        try
-        {
-            cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
-        }
-        catch (Exception ex)
-        {
-            cache = null;
-            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-        }
+        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(
-                _ =>
-                {
-                    try
-                    {
-                        cache?.Dispose();
-                        cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
-                        Output = "Redis URL changed — embeddings cache reconnected.";
-                    }
-                    catch (Exception ex)
-                    {
-                        cache = null;
-                        Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-                    }
-                },
-                ex => Output = $"⚠️ Error: {ex.Message}"));
+            .Subscribe(_ =>
+            {
+                cache.Dispose();
+                cache = new EmbeddingsCache(redisUrl: vectorizerService.RedisUrl, prefix: "tutorial-emb");
+                Output = "Redis URL changed — embeddings cache reconnected.";
+            }));
 
         var canExecuteSingle = this.WhenAnyValue(x => x.Text, t => !string.IsNullOrWhiteSpace(t));
         var canExecuteBatch = this.WhenAnyValue(x => x.BatchTexts, t => !string.IsNullOrWhiteSpace(t));
@@ -91,7 +72,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteSet()
     {
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var embedding = await vectorizerService.CurrentVectorizer.EmbedAsync(Text);
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var key = await cache.SetAsync(Text, model, embedding);
@@ -103,7 +83,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteGet()
     {
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var entry = await cache.GetAsync(Text, model);
         if (entry == null)
@@ -119,7 +98,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteExists()
     {
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var exists = await cache.ExistsAsync(Text, model);
         Output = $"Exists(\"{Text}\", \"{model}\"): {exists}";
@@ -127,7 +105,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteDrop()
     {
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         await cache.DropAsync(Text, model);
         Output = $"Dropped entry for \"{Text}\" (model: {model}).";
@@ -138,7 +115,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
         var texts = BatchTexts.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
         var embeddings = await vectorizerService.CurrentVectorizer.EmbedManyAsync(texts);
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var keys = await cache.MSetAsync(texts, model, embeddings.ToList());
 
         var sb = new StringBuilder();
@@ -152,7 +128,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     {
         var texts = BatchTexts.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
         var model = string.IsNullOrWhiteSpace(ModelName) ? vectorizerService.CurrentVectorizer.Model : ModelName;
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         var results = await cache.MGetAsync(texts, model);
 
         var sb = new StringBuilder();
@@ -169,7 +144,6 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
 
     private async Task ExecuteClear()
     {
-        if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
         await cache.ClearAsync();
         Output = "All embeddings cache entries cleared.";
     }
@@ -177,7 +151,7 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
     public void Dispose()
     {
         disposables.Dispose();
-        cache?.Dispose();
+        cache.Dispose();
     }
 }
 

@@ -46,16 +46,12 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
 
         disposables.Add(vectorizerService.VectorizerChanged
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(
-                _ => RecreateCache(),
-                ex => Output = $"⚠️ Error: {ex.Message}"));
+            .Subscribe(_ => RecreateCache()));
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(
-                _ => RecreateCache(),
-                ex => Output = $"⚠️ Error: {ex.Message}"));
+            .Subscribe(_ => RecreateCache()));
 
         var canStore = this.WhenAnyValue(
                 x => x.StorePrompt, x => x.IsBusy,
@@ -85,23 +81,15 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
 
     private void RecreateCache()
     {
-        try
-        {
-            cache?.Dispose();
-            cache = new SemanticCache(
-                name: "tutorial-cache",
-                vectorizer: vectorizerService.CurrentVectorizer,
-                redisUrl: vectorizerService.RedisUrl,
-                distanceThreshold: 0.3);
-            Output = vectorizerService.Mode == VectorizerMode.Demo
-                ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."
-                : $"✅ Using {vectorizerService.Mode} vectorizer ({vectorizerService.CurrentDims} dims). Cache recreated.";
-        }
-        catch (Exception ex)
-        {
-            cache = null;
-            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
-        }
+        cache?.Dispose();
+        cache = new SemanticCache(
+            name: "tutorial-cache",
+            vectorizer: vectorizerService.CurrentVectorizer,
+            redisUrl: vectorizerService.RedisUrl,
+            distanceThreshold: 0.3);
+        Output = vectorizerService.Mode == VectorizerMode.Demo
+            ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."
+            : $"✅ Using {vectorizerService.Mode} vectorizer ({vectorizerService.CurrentDims} dims). Cache recreated.";
     }
 
     private async Task ExecuteStore()
@@ -109,8 +97,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
-            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
-            await cache.StoreAsync(StorePrompt, StoreResponse);
+            await cache!.StoreAsync(StorePrompt, StoreResponse);
             Output = $"Stored: \"{StorePrompt}\" → \"{StoreResponse}\"";
         }
         finally
@@ -124,8 +111,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
-            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
-            var results = await cache.CheckAsync(CheckPrompt);
+            var results = await cache!.CheckAsync(CheckPrompt);
             if (results.Count > 0)
             {
                 var sb = new StringBuilder();
@@ -158,8 +144,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             var stopwatch = Stopwatch.StartNew();
 
             // Check cache first
-            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
-            var results = await cache.CheckAsync(AskPrompt);
+            var results = await cache!.CheckAsync(AskPrompt);
             if (results.Count > 0)
             {
                 stopwatch.Stop();
@@ -192,8 +177,7 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
-            if (cache == null) throw new InvalidOperationException("Redis is not connected. Check your Redis URL in Settings.");
-            await cache.ClearAsync();
+            await cache!.ClearAsync();
             Output = "Cache cleared.";
         }
         finally
