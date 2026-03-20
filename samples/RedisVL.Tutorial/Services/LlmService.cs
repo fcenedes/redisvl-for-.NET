@@ -35,6 +35,7 @@ public class LlmService
             throw new InvalidOperationException("OpenAI API key is not configured. Set it in Settings.");
         }
 
+        Console.WriteLine($"[LLM] Calling OpenAI: '{prompt}'");
         var stopwatch = Stopwatch.StartNew();
 
         var requestBody = new
@@ -59,6 +60,7 @@ public class LlmService
 
         if (!response.IsSuccessStatusCode)
         {
+            Console.WriteLine($"[LLM] Error: OpenAI API error ({response.StatusCode}): {responseJson}");
             throw new HttpRequestException($"OpenAI API error ({response.StatusCode}): {responseJson}");
         }
 
@@ -78,6 +80,8 @@ public class LlmService
 
         var estimatedCost = (promptTokens * InputCostPerMillionTokens / 1_000_000m)
                           + (completionTokens * OutputCostPerMillionTokens / 1_000_000m);
+
+        Console.WriteLine($"[LLM] Response received: {totalTokens} tokens");
 
         return new LlmResponse(
             Content: messageContent,

@@ -43,11 +43,12 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
 
         disposables.Add(
             Route.ThrownExceptions
-                .Subscribe(ex => Output = $"Error: {ex.Message}"));
-
-        disposables.Add(
-            Clear.ThrownExceptions
-                .Subscribe(ex => Output = $"Error: {ex.Message}"));
+                .Merge(Clear.ThrownExceptions)
+                .Subscribe(ex =>
+                {
+                    Console.WriteLine($"[{Title}] Error: {ex}");
+                    Output = $"Error: {ex.Message}" + (ex.InnerException != null ? $"\n  Inner: {ex.InnerException.Message}" : "");
+                }));
 
         disposables.Add(
             vectorizerService.VectorizerChanged

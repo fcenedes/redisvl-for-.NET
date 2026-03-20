@@ -73,7 +73,11 @@ public partial class EmbeddingsCacheSectionViewModel : ReactiveObject, IDisposab
                 .Merge(MSet.ThrownExceptions)
                 .Merge(MGet.ThrownExceptions)
                 .Merge(Clear.ThrownExceptions)
-                .Subscribe(ex => Output = $"Error: {ex.Message}"));
+                .Subscribe(ex =>
+                {
+                    Console.WriteLine($"[{Title}] Error: {ex}");
+                    Output = $"Error: {ex.Message}" + (ex.InnerException != null ? $"\n  Inner: {ex.InnerException.Message}" : "");
+                }));
     }
 
     public string Title => "Embeddings Cache";

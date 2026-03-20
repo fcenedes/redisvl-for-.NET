@@ -91,6 +91,7 @@ public partial class VectorizerService : ReactiveObject
 
     private static ITextVectorizer CreateVectorizer(VectorizerMode mode, string apiKey)
     {
+        Console.WriteLine($"[Vectorizer] Creating: mode={mode}, hasApiKey={!string.IsNullOrEmpty(apiKey)}");
         return mode switch
         {
             VectorizerMode.OpenAI when !string.IsNullOrWhiteSpace(apiKey) =>

@@ -60,7 +60,11 @@ public partial class MessageHistorySectionViewModel : ReactiveObject, IDisposabl
                 .Merge(SearchRelevant.ThrownExceptions)
                 .Merge(Clear.ThrownExceptions)
                 .ObserveOn(RxSchedulers.MainThreadScheduler)
-                .Subscribe(ex => Output = $"Error: {ex.Message}"));
+                .Subscribe(ex =>
+                {
+                    Console.WriteLine($"[{Title}] Error: {ex}");
+                    Output = $"Error: {ex.Message}" + (ex.InnerException != null ? $"\n  Inner: {ex.InnerException.Message}" : "");
+                }));
 
         disposables.Add(AddMessage);
         disposables.Add(GetRecent);

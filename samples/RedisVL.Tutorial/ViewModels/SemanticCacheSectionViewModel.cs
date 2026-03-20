@@ -76,11 +76,16 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             .Merge(Check.ThrownExceptions)
             .Merge(Clear.ThrownExceptions)
             .Merge(Ask.ThrownExceptions)
-            .Subscribe(ex => Output = $"Error: {ex.Message}"));
+            .Subscribe(ex =>
+            {
+                Console.WriteLine($"[{Title}] Error: {ex}");
+                Output = $"Error: {ex.Message}" + (ex.InnerException != null ? $"\n  Inner: {ex.InnerException.Message}" : "");
+            }));
     }
 
     private void RecreateCache()
     {
+        Console.WriteLine($"[SemanticCache] RecreateCache: mode={vectorizerService.Mode}, url={vectorizerService.RedisUrl}");
         try
         {
             cache?.Dispose();
@@ -89,12 +94,14 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
                 vectorizer: vectorizerService.CurrentVectorizer,
                 redisUrl: vectorizerService.RedisUrl,
                 distanceThreshold: 0.3);
+            Console.WriteLine("[SemanticCache] Cache created successfully");
             Output = vectorizerService.Mode == VectorizerMode.Demo
                 ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."
                 : $"✅ Using {vectorizerService.Mode} vectorizer ({vectorizerService.CurrentDims} dims). Cache recreated.";
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"[SemanticCache] RecreateCache failed: {ex}");
             cache = null;
             Output = $"⚠️ Could not connect to Redis: {ex.Message}";
         }
@@ -149,10 +156,12 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
         IsBusy = true;
         try
         {
+            Console.WriteLine($"[SemanticCache] Ask: '{AskPrompt}'");
             var stopwatch = Stopwatch.StartNew();
 
             // Check cache first
             var results = await cache!.CheckAsync(AskPrompt);
+            Console.WriteLine($"[SemanticCache] Cache check: {results.Count} results");
             if (results.Count > 0)
             {
                 stopwatch.Stop();
@@ -164,8 +173,10 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             else
             {
                 // Cache miss — call OpenAI
+                Console.WriteLine("[SemanticCache] Cache MISS, calling LLM...");
                 var response = await llmService.Ask(AskPrompt);
                 stopwatch.Stop();
+                Console.WriteLine($"[SemanticCache] LLM response: {response.Content?.Substring(0, Math.Min(100, response.Content?.Length ?? 0))}...");
 
                 // Cache the response for future queries
                 await cache.StoreAsync(AskPrompt, response.Content);
