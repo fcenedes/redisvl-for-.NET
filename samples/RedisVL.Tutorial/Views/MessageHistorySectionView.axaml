@@ -3,10 +3,56 @@
              xmlns:vm="using:RedisVL.Tutorial.ViewModels"
              x:Class="RedisVL.Tutorial.Views.MessageHistorySectionView"
              x:DataType="vm:MessageHistorySectionViewModel">
-    <StackPanel Margin="16" Spacing="12">
-        <TextBlock Text="Message History" FontSize="18" FontWeight="SemiBold" />
-        <TextBlock TextWrapping="Wrap"
-                   Text="Store conversation messages with semantic search capabilities." />
-    </StackPanel>
+    <ScrollViewer>
+        <StackPanel Margin="16" Spacing="12">
+
+            <TextBlock Text="Message History" FontSize="18" FontWeight="SemiBold" />
+            <TextBlock TextWrapping="Wrap"
+                       Text="Store conversation messages with semantic search. Uses SemanticMessageHistory with vectorizer to find relevant messages by meaning." />
+
+            <!-- Add Message -->
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Add Message" FontWeight="SemiBold" />
+                    <ComboBox ItemsSource="{Binding AvailableRoles}"
+                              SelectedItem="{Binding SelectedRole}"
+                              MinWidth="200" />
+                    <TextBox Text="{Binding MessageContent}"
+                             Watermark="Message content"
+                             AcceptsReturn="True"
+                             Height="60" />
+                    <Button Content="Add Message"
+                            Command="{Binding AddMessage}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Search -->
+            <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="4" Padding="12">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="Search Messages" FontWeight="SemiBold" />
+                    <TextBox Text="{Binding SearchQuery}"
+                             Watermark="Semantic search query" />
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="Search Relevant"
+                                Command="{Binding SearchRelevant}" />
+                        <Button Content="Get Recent (5)"
+                                Command="{Binding GetRecent}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Output -->
+            <TextBlock Text="Output:" FontWeight="SemiBold" />
+            <TextBox Text="{Binding Output, Mode=OneWay}"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     Height="160"
+                     TextWrapping="Wrap" />
+
+            <Button Content="Clear History"
+                    Command="{Binding Clear}" />
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
 

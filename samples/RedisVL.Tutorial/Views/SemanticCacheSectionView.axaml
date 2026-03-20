@@ -1,7 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:RedisVL.Tutorial.ViewModels"
-             xmlns:zafiro="https://github.com/nicoriff/zafiro.avalonia"
              x:Class="RedisVL.Tutorial.Views.SemanticCacheSectionView"
              x:DataType="vm:SemanticCacheSectionViewModel">
     <ScrollViewer>
@@ -11,7 +10,7 @@
                        Text="Cache LLM responses and retrieve them by semantic similarity. In Demo mode, only exact text matches work. Switch to OpenAI or HuggingFace for true semantic matching." />
 
             <!-- Store Section -->
-            <zafiro:HeaderedContainer Header="Store a Response">
+            <HeaderedContentControl Header="Store a Response">
                 <StackPanel Spacing="8">
                     <TextBox Watermark="Prompt (e.g. What is Redis?)"
                              Text="{Binding StorePrompt}" />
@@ -20,16 +19,16 @@
                              Text="{Binding StoreResponse}" />
                     <Button Content="Store" Command="{Binding Store}" />
                 </StackPanel>
-            </zafiro:HeaderedContainer>
+            </HeaderedContentControl>
 
             <!-- Check Section -->
-            <zafiro:HeaderedContainer Header="Check Cache">
+            <HeaderedContentControl Header="Check Cache">
                 <StackPanel Spacing="8">
                     <TextBox Watermark="Query prompt (e.g. Tell me about Redis)"
                              Text="{Binding CheckPrompt}" />
                     <Button Content="Check" Command="{Binding Check}" />
                 </StackPanel>
-            </zafiro:HeaderedContainer>
+            </HeaderedContentControl>
 
             <!-- Output -->
             <TextBlock Text="Output:" FontWeight="SemiBold" />
