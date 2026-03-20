@@ -52,13 +52,13 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
         disposables.Add(
             vectorizerService.VectorizerChanged
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(_ => RecreateRouter()));
+                .Subscribe(_ => RecreateRouter(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         disposables.Add(
             vectorizerService.RedisUrlChanged
                 .Skip(1)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(_ => RecreateRouter()));
+                .Subscribe(_ => RecreateRouter(), ex => Output = $"⚠️ Error: {ex.Message}"));
     }
 
     public string Title => "Semantic Router";
@@ -124,11 +124,19 @@ public partial class SemanticRouterSectionViewModel : ReactiveObject, IDisposabl
     {
         if (router != null) return;
 
-        router = new SemanticRouter(
-            name: "tutorial-router",
-            routes: CreateRoutes().ConvertAll(r => r.ToRoute()),
-            vectorizer: vectorizerService.CurrentVectorizer,
-            redisUrl: vectorizerService.RedisUrl);
+        try
+        {
+            router = new SemanticRouter(
+                name: "tutorial-router",
+                routes: CreateRoutes().ConvertAll(r => r.ToRoute()),
+                vectorizer: vectorizerService.CurrentVectorizer,
+                redisUrl: vectorizerService.RedisUrl);
+        }
+        catch (Exception ex)
+        {
+            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
+            throw;
+        }
     }
 
     private static List<RouteInfo> CreateRoutes()

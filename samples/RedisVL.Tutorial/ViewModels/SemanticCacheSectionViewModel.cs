@@ -46,12 +46,12 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
 
         disposables.Add(vectorizerService.VectorizerChanged
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ => RecreateCache()));
+            .Subscribe(_ => RecreateCache(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         disposables.Add(vectorizerService.RedisUrlChanged
             .Skip(1)
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ => RecreateCache()));
+            .Subscribe(_ => RecreateCache(), ex => Output = $"⚠️ Error: {ex.Message}"));
 
         var canStore = this.WhenAnyValue(
                 x => x.StorePrompt, x => x.IsBusy,
@@ -81,15 +81,23 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
 
     private void RecreateCache()
     {
-        cache?.Dispose();
-        cache = new SemanticCache(
-            name: "tutorial-cache",
-            vectorizer: vectorizerService.CurrentVectorizer,
-            redisUrl: vectorizerService.RedisUrl,
-            distanceThreshold: 0.3);
-        Output = vectorizerService.Mode == VectorizerMode.Demo
-            ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."
-            : $"✅ Using {vectorizerService.Mode} vectorizer ({vectorizerService.CurrentDims} dims). Cache recreated.";
+        try
+        {
+            cache?.Dispose();
+            cache = new SemanticCache(
+                name: "tutorial-cache",
+                vectorizer: vectorizerService.CurrentVectorizer,
+                redisUrl: vectorizerService.RedisUrl,
+                distanceThreshold: 0.3);
+            Output = vectorizerService.Mode == VectorizerMode.Demo
+                ? "ℹ️ Demo mode: hash-based vectorizer — only exact text matches.\nSwitch to OpenAI or HuggingFace for true semantic similarity."
+                : $"✅ Using {vectorizerService.Mode} vectorizer ({vectorizerService.CurrentDims} dims). Cache recreated.";
+        }
+        catch (Exception ex)
+        {
+            cache = null;
+            Output = $"⚠️ Could not connect to Redis: {ex.Message}";
+        }
     }
 
     private async Task ExecuteStore()
