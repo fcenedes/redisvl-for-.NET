@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -13,12 +14,15 @@ namespace RedisVL.Tutorial.ViewModels;
 public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
 {
     private readonly VectorizerService vectorizerService;
+    private readonly LlmService llmService;
+    private readonly MetricsService metricsService;
     private readonly CompositeDisposable disposables = new();
     private SemanticCache? cache;
 
     [Reactive] private string storePrompt = string.Empty;
     [Reactive] private string storeResponse = string.Empty;
     [Reactive] private string checkPrompt = string.Empty;
+    [Reactive] private string askPrompt = string.Empty;
     [Reactive] private string output = string.Empty;
     [Reactive] private bool isBusy;
 
@@ -27,10 +31,16 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
     public ReactiveCommand<Unit, Unit> Store { get; }
     public ReactiveCommand<Unit, Unit> Check { get; }
     public ReactiveCommand<Unit, Unit> Clear { get; }
+    public ReactiveCommand<Unit, Unit> Ask { get; }
 
-    public SemanticCacheSectionViewModel(VectorizerService vectorizerService)
+    public SemanticCacheSectionViewModel(
+        VectorizerService vectorizerService,
+        LlmService llmService,
+        MetricsService metricsService)
     {
         this.vectorizerService = vectorizerService;
+        this.llmService = llmService;
+        this.metricsService = metricsService;
 
         RecreateCache();
 
@@ -51,15 +61,21 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
                 x => x.CheckPrompt, x => x.IsBusy,
                 (prompt, busy) => !string.IsNullOrWhiteSpace(prompt) && !busy);
 
+        var canAsk = this.WhenAnyValue(
+                x => x.AskPrompt, x => x.IsBusy,
+                (prompt, busy) => !string.IsNullOrWhiteSpace(prompt) && !busy);
+
         var notBusy = this.WhenAnyValue(x => x.IsBusy, busy => !busy);
 
         Store = ReactiveCommand.CreateFromTask(ExecuteStore, canStore);
         Check = ReactiveCommand.CreateFromTask(ExecuteCheck, canCheck);
         Clear = ReactiveCommand.CreateFromTask(ExecuteClear, notBusy);
+        Ask = ReactiveCommand.CreateFromTask(ExecuteAsk, canAsk);
 
         disposables.Add(Store.ThrownExceptions
             .Merge(Check.ThrownExceptions)
             .Merge(Clear.ThrownExceptions)
+            .Merge(Ask.ThrownExceptions)
             .Subscribe(ex => Output = $"Error: {ex.Message}"));
     }
 
@@ -112,6 +128,42 @@ public partial class SemanticCacheSectionViewModel : ReactiveObject, IDisposable
             else
             {
                 Output = "Cache MISS — no similar prompt found.";
+            }
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private async Task ExecuteAsk()
+    {
+        IsBusy = true;
+        try
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            // Check cache first
+            var results = await cache!.CheckAsync(AskPrompt);
+            if (results.Count > 0)
+            {
+                stopwatch.Stop();
+                var hit = results[0];
+                var savings = metricsService.EstimateSavings();
+                metricsService.RecordCacheHit(stopwatch.ElapsedMilliseconds, savings);
+                Output = $"⚡ CACHE HIT — Response: {hit.Response}, Distance: {hit.Distance:F4}, Time: {stopwatch.ElapsedMilliseconds}ms, Saved: ${savings:F4}";
+            }
+            else
+            {
+                // Cache miss — call OpenAI
+                var response = await llmService.Ask(AskPrompt);
+                stopwatch.Stop();
+
+                // Cache the response for future queries
+                await cache.StoreAsync(AskPrompt, response.Content);
+
+                metricsService.RecordApiCall(response);
+                Output = $"🌐 API CALL — Response: {response.Content}, Tokens: {response.TotalTokens} (prompt: {response.PromptTokens}, completion: {response.CompletionTokens}), Cost: ${response.EstimatedCost:F4}, Time: {response.ResponseTimeMs}ms";
             }
         }
         finally

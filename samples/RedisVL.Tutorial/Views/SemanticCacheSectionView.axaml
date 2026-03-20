@@ -10,6 +10,15 @@
             <TextBlock TextWrapping="Wrap"
                        Text="Cache LLM responses and retrieve them by semantic similarity. In Demo mode, only exact text matches work. Switch to OpenAI or HuggingFace for true semantic matching." />
 
+            <!-- Ask LLM Section -->
+            <z:HeaderedContainer Header="Ask LLM (with Semantic Cache)">
+                <StackPanel Spacing="8">
+                    <TextBox Watermark="Ask a question (e.g. What is Redis?)"
+                             Text="{Binding AskPrompt}" />
+                    <Button Content="Ask" Command="{Binding Ask}" Classes="Primary" />
+                </StackPanel>
+            </z:HeaderedContainer>
+
             <!-- Store Section -->
             <z:HeaderedContainer Header="Store a Response">
                 <StackPanel Spacing="8">
