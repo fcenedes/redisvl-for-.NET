@@ -26,6 +26,10 @@
         <SolidColorBrush x:Key="BgTertiaryBrush" Color="{StaticResource BgTertiary}" />
         <SolidColorBrush x:Key="BorderLightBrush" Color="{StaticResource BorderLight}" />
         <SolidColorBrush x:Key="BorderMediumBrush" Color="{StaticResource BorderMedium}" />
+
+        <!-- Accent Colors -->
+        <Color x:Key="SavingsGreen">#22C55E</Color>
+        <SolidColorBrush x:Key="SavingsGreenBrush" Color="{StaticResource SavingsGreen}" />
     </Styles.Resources>
 
     <!-- Primary Button Style (Redis Red) -->

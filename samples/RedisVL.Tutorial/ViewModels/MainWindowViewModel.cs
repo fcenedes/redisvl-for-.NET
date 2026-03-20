@@ -17,14 +17,18 @@ public partial class MainWindowViewModel : ReactiveObject
 
     public SettingsViewModel Settings { get; }
 
+    public MetricsDashboardViewModel MetricsDashboard { get; }
+
     public MainWindowViewModel(
         SemanticCacheSectionViewModel semanticCache,
         EmbeddingsCacheSectionViewModel embeddingsCache,
         MessageHistorySectionViewModel messageHistory,
         SemanticRouterSectionViewModel semanticRouter,
-        SettingsViewModel settings)
+        SettingsViewModel settings,
+        MetricsDashboardViewModel metricsDashboard)
     {
         Settings = settings;
+        MetricsDashboard = metricsDashboard;
 
         var sections = new ObservableCollection<ReactiveObject>(new ReactiveObject[]
         {

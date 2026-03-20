@@ -33,6 +33,10 @@
                          DataContext="{Binding Settings}"
                          Margin="16,0,16,8" />
 
+        <v:MetricsDashboardView DockPanel.Dock="Bottom"
+                                 DataContext="{Binding MetricsDashboard}"
+                                 Margin="8,0,8,0" />
+
         <TabControl ItemsSource="{Binding Sections}"
                     SelectedItem="{Binding SelectedSection}"
                     Margin="8">

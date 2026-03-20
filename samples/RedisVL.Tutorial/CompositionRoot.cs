@@ -12,10 +12,13 @@ public static class CompositionRoot
 
         services
             .AddVectorizerServices()
+            .AddSingleton<LlmService>()
+            .AddSingleton<MetricsService>()
             .AddTransient<SemanticCacheSectionViewModel>()
             .AddTransient<EmbeddingsCacheSectionViewModel>()
             .AddTransient<MessageHistorySectionViewModel>()
             .AddTransient<SemanticRouterSectionViewModel>()
+            .AddTransient<MetricsDashboardViewModel>()
             .AddTransient<MainWindowViewModel>();
 
         var provider = services.BuildServiceProvider();
