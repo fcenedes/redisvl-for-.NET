@@ -43,6 +43,7 @@ nav:
       - Vectorizers: user-guide/vectorizers.md
       - Extensions: user-guide/extensions.md
       - Connections: user-guide/connections.md
+  - Tutorial: tutorial.md
   - API Reference: api/reference.md
 
 plugins:
